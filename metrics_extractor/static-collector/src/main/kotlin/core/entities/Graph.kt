@@ -13,11 +13,11 @@ class Graph {
     fun getVertices() = this.vertices
 
     fun addVertex(v: Vertex) {
-        val hasVertex = this.vertices.find { u -> u.getId() == v.getId() }
+        val hasVertex = this.vertices.find { u -> u.id() == v.id() }
         if (hasVertex == null) {
             this.vertices.add(v)
             this.v += 1
-            this.adj[v.getId()] = mutableListOf()
+            this.adj[v.id()] = mutableListOf()
         }
     }
 
@@ -28,8 +28,8 @@ class Graph {
         this.addVertex(u)
         this.addVertex(v)
 
-        this.adj[u.getId()]!!.add(e)
-        this.adj[v.getId()]!!.add(e)
+        this.adj[u.id()]!!.add(e)
+        this.adj[v.id()]!!.add(e)
 
         this.e += 1
     }
@@ -46,7 +46,7 @@ class Graph {
             val hasEdge = filteredEdges.find { e ->
                 val either = e.either()
                 val other = e.other(either)
-                fixedEither.getId() == either.getId() && fixedOther.getId() == other.getId()
+                fixedEither.id() == either.id() && fixedOther.id() == other.id()
             }
 
             if (hasEdge == null)

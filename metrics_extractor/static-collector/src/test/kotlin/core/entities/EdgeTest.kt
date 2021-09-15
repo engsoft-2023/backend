@@ -12,7 +12,7 @@ class EdgeTest {
         val u = Vertex()
         val v = Vertex()
         val edge = Edge(u, v)
-        assertEquals(u.getId(), edge.either().getId())
+        assertEquals(u.id(), edge.either().id())
     }
 
     @Test
@@ -21,7 +21,7 @@ class EdgeTest {
         val u = Vertex()
         val v = Vertex()
         val edge = Edge(u, v)
-        assertEquals(u.getId(), edge.other(v).getId())
-        assertEquals(v.getId(), edge.other(u).getId())
+        assertEquals(u.id(), edge.other(v).id())
+        assertEquals(v.id(), edge.other(u).id())
     }
 }

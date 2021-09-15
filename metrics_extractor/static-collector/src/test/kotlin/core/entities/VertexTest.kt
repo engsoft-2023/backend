@@ -11,6 +11,6 @@ class VertexTest {
     @DisplayName("check if vertex instance has a valid id")
     fun testVertexInstantiationWithCorrectUUID() {
         val vertex = Vertex()
-        assertDoesNotThrow { UUID.fromString(vertex.getId()) }
+        assertDoesNotThrow { UUID.fromString(vertex.id()) }
     }
 }

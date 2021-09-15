@@ -14,7 +14,7 @@ class GraphTest {
         graph.addVertex(v)
 
         assertEquals(1, graph.amountVertices())
-        assertEquals(v, graph.getVertices().find { u -> u.getId() == v.getId() })
+        assertEquals(v, graph.getVertices().find { u -> u.id() == v.id() })
     }
 
     @Test

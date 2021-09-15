@@ -1,9 +1,9 @@
 package core.entities
 
-class Edge(private val u: Vertex, private val v: Vertex, val payload: Any? = null) {
+open class Edge(private val u: Vertex, private val v: Vertex, val payload: Any? = null) {
     fun either() = this.u
     fun other(v: Vertex): Vertex =
-        if (v.getId() == this.u.getId())
+        if (v.id() == this.u.id())
             this.v
         else
             this.u
