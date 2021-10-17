@@ -1,9 +1,9 @@
-package core.entities
+package domain.entities.platform_independent_model
 
 abstract class Edge(private val u: Vertex, private val v: Vertex, private val payload: Any? = null) {
     fun either() = this.u
     fun other(w: Vertex): Vertex =
-        if (w.id() == this.u.id())
+        if (w.id == this.u.id)
             this.v
         else
             this.u

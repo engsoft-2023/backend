@@ -1,4 +1,4 @@
-package core.entities
+package domain.entities.platform_independent_model
 
 data class CtxServiceEdge(
     val ctx: Context,
