@@ -1,4 +1,4 @@
-package domain.entities.platform_independent_model
+package domain.entities.base
 
 class Graph {
     var numberOfVertices = 0

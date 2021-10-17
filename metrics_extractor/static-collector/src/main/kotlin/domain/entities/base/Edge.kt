@@ -1,4 +1,4 @@
-package domain.entities.platform_independent_model
+package domain.entities.base
 
 abstract class Edge(private val u: Vertex, private val v: Vertex, private val payload: Any? = null) {
     fun either() = this.u

@@ -1,5 +1,6 @@
 package domain.entities.platform_independent_model
 
+import domain.entities.base.Graph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
