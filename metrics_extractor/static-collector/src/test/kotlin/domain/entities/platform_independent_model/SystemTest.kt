@@ -1,6 +1,5 @@
-package domain.entities
+package domain.entities.platform_independent_model
 
-import domain.entities.platform_independent_model.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 class SystemTest {
-    private lateinit var system: domain.entities.platform_independent_model.System
+    private lateinit var system: System
 
     @BeforeEach
     fun init() {
