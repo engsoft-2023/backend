@@ -1,6 +1,5 @@
 package domain.entities.platform_independent_model
 
-import domain.entities.base.Graph
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -13,8 +12,6 @@ class SystemTest {
     @BeforeEach
     fun init() {
         system = System("Sorting Hat")
-        val graph = Graph()
-        system.graph = graph
     }
 
     @Test
@@ -26,38 +23,32 @@ class SystemTest {
     @Test
     @DisplayName("add new context, service and database in a system")
     fun testAddContextServiceAndDatabaseVertices() {
-        val graph = system.graph
         val context = Context("data-collector")
         val service = Service("data-collector")
         val database = Database("data-collector-db", "MongoDB", "NoSQL")
 
-        graph.addVertex(context)
-        graph.addVertex(service)
-        graph.addVertex(database)
+        system.addContext(context)
+        system.addService(service)
+        system.addDatabase(database)
 
-        assertEquals(3, graph.numberOfVertices)
-        assertEquals(context, graph.vertices.find { u -> u.id == context.id })
-        assertEquals(service, graph.vertices.find { u -> u.id == service.id })
-        assertEquals(database, graph.vertices.find { u -> u.id == database.id })
+        assertEquals(context, system.contexts()[0])
+        assertEquals(service, system.services()[0])
+        assertEquals(database, system.databases()[0])
     }
 
     @Test
-    @DisplayName("add CtxServiceEdge, CtxDbEdge and DbServiceEdge in a system")
+    @DisplayName("binding contexts, services and databases in a system")
     fun testAddContextServiceAndDatabaseEdges() {
-        val graph = system.graph
         val context = Context("data-collector")
         val service = Service("data-collector")
         val database = Database("data-collector-db", "MongoDB", "NoSQL")
 
-        val ctxDbEdge = CtxDbEdge(context, database)
-        val ctxServiceEdge = CtxServiceEdge(context, service)
-        val dbServiceEdge = DbServiceEdge(database, service, "namespace" to "data-collector-db")
+        system.bindDatabaseToContext(database, context)
+        system.bindServiceToContext(service, context)
+        system.bindDatabaseToService(database, service, "namespace" to "data-collector-db")
 
-        graph.addEdge(ctxDbEdge)
-        graph.addEdge(ctxServiceEdge)
-        graph.addEdge(dbServiceEdge)
-
-        assertEquals(3, graph.numberOfEdges)
-        assertEquals(3, graph.getEdges().size)
+        assertEquals(1, system.contexts().size)
+        assertEquals(1, system.services().size)
+        assertEquals(1, system.databases().size)
     }
 }

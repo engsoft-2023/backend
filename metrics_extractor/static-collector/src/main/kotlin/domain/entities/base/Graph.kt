@@ -28,7 +28,7 @@ class Graph {
         this.numberOfEdges += 1
     }
 
-    fun getEdges(): List<Edge> {
+    fun edges(): List<Edge> {
         val allEdges = mutableListOf<Edge>()
         val filteredEdges = mutableListOf<Edge>()
 

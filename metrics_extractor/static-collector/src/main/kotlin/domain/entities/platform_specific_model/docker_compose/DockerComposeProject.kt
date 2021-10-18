@@ -1,0 +1,30 @@
+package domain.entities.platform_specific_model.docker_compose
+
+import domain.entities.base.Graph
+
+data class DockerComposeProject(val name: String) {
+    private val graph: Graph = Graph()
+
+    fun addService(container: DockerContainer) {
+        graph.addVertex(container)
+    }
+
+    fun addNetwork(network: DockerNetwork) {
+        graph.addVertex(network)
+    }
+
+    fun bindContainerToNetwork(container: DockerContainer, network: DockerNetwork) {
+        addService(container)
+        addNetwork(network)
+        graph.addEdge(NetContainerEdge(network, container))
+    }
+
+    fun services(): List<DockerContainer> =
+        graph.vertices.filterIsInstance(DockerContainer::class.java)
+
+    fun networks(): List<DockerNetwork> =
+        graph.vertices.filterIsInstance(DockerNetwork::class.java)
+
+    fun getAllNetworkContainerLinks(): List<NetContainerEdge> =
+        graph.edges().filterIsInstance(NetContainerEdge::class.java)
+}
