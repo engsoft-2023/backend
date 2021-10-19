@@ -1,8 +1,9 @@
 package domain.entities.platform_specific_model.docker_compose
 
 import domain.entities.base.Graph
+import domain.entities.platform_specific_model.PlatformSpecificModel
 
-data class DockerComposeProject(val name: String) {
+data class DockerComposeProject(val name: String) : PlatformSpecificModel() {
     private val graph: Graph = Graph()
 
     fun addService(container: DockerContainer) {
