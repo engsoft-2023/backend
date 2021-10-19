@@ -1,6 +1,6 @@
 package domain.usecases
 
-import domain.conversors.ConverterToPIM
+import domain.converters.ConverterToPIM
 import domain.entities.platform_independent_model.System
 import domain.fetchers.FetchData
 import domain.parsers.*

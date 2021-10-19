@@ -1,4 +1,4 @@
-package domain.conversors
+package domain.converters
 
 import domain.entities.platform_independent_model.System
 import domain.entities.platform_specific_model.PlatformSpecificModel
