@@ -26,7 +26,7 @@ class ExtractDataUseCase(
 
         if (sys != null)
             throw Exception("system with this name already exists")
-
-        systemRepository.save(system)
+        else
+            systemRepository.save(system)
     }
 }
