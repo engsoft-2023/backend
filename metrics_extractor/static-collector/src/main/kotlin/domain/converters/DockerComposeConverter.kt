@@ -33,7 +33,7 @@ class DockerComposeConverter : ConverterToPIM {
     }
 
     private fun convertContainersToServicesAndDatabases(dcProject: DockerComposeProject, system: System) {
-        dcProject.services().forEach { container ->
+        dcProject.containers().forEach { container ->
             if (ContainerDecider.isDatabase(container)) {
                 val database = createDatabase(container)
                 linksContainersToDatabases[container] = database

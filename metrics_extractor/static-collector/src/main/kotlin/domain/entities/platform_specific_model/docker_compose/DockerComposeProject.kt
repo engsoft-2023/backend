@@ -6,7 +6,7 @@ import domain.entities.platform_specific_model.PlatformSpecificModel
 data class DockerComposeProject(val name: String) : PlatformSpecificModel() {
     private val graph: Graph = Graph()
 
-    fun addService(container: DockerContainer) {
+    fun addContainer(container: DockerContainer) {
         graph.addVertex(container)
     }
 
@@ -15,12 +15,12 @@ data class DockerComposeProject(val name: String) : PlatformSpecificModel() {
     }
 
     fun bindContainerToNetwork(container: DockerContainer, network: DockerNetwork) {
-        addService(container)
+        addContainer(container)
         addNetwork(network)
         graph.addEdge(NetContainerEdge(network, container))
     }
 
-    fun services(): List<DockerContainer> =
+    fun containers(): List<DockerContainer> =
         graph.vertices.filterIsInstance(DockerContainer::class.java)
 
     fun networks(): List<DockerNetwork> =

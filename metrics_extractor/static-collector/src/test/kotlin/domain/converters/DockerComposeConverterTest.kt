@@ -23,8 +23,8 @@ class DockerComposeConverterTest {
         app.environment = hashMapOf("DB_HOST" to "db")
         app.dependsOn.add(db)
 
-        dcProject.addService(db)
-        dcProject.addService(app)
+        dcProject.addContainer(db)
+        dcProject.addContainer(app)
         dcProject.addNetwork(net)
         dcProject.bindContainerToNetwork(app, net)
         dcProject.bindContainerToNetwork(db, net)

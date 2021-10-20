@@ -16,8 +16,8 @@ class DockerComposeProjectTest {
         dc.bindContainerToNetwork(container, network)
 
         assertEquals(1, dc.networks().size)
-        assertEquals(1, dc.services().size)
-        assertEquals(container, dc.services()[0])
+        assertEquals(1, dc.containers().size)
+        assertEquals(container, dc.containers()[0])
         assertEquals(network, dc.networks()[0])
         assertEquals(1, dc.getAllNetworkContainerLinks().size)
         assertEquals(container, dc.getAllNetworkContainerLinks()[0].container)
