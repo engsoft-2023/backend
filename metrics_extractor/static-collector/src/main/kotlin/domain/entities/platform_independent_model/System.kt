@@ -45,4 +45,13 @@ data class System(val name: String) {
 
     fun databases(): List<Database> =
         graph.vertices.filterIsInstance(Database::class.java)
+
+    fun dbServiceLinks(): List<DbServiceEdge> =
+        graph.edges().filterIsInstance(DbServiceEdge::class.java)
+
+    fun ctxServiceLinks(): List<CtxServiceEdge> =
+        graph.edges().filterIsInstance(CtxServiceEdge::class.java)
+
+    fun ctxDbLinks(): List<CtxDbEdge> =
+        graph.edges().filterIsInstance(CtxDbEdge::class.java)
 }
