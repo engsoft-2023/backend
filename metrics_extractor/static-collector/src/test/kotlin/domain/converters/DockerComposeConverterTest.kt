@@ -21,7 +21,7 @@ class DockerComposeConverterTest {
         val app = DockerContainer("app")
         app.build = "."
         app.environment = hashMapOf("DB_HOST" to "db")
-        app.dependsOn = db
+        app.dependsOn.add(db)
 
         dcProject.addService(db)
         dcProject.addService(app)

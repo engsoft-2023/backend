@@ -9,6 +9,7 @@ import domain.entities.platform_specific_model.docker_compose.ContainerDecider
 import domain.entities.platform_specific_model.docker_compose.DockerComposeProject
 import domain.entities.platform_specific_model.docker_compose.DockerContainer
 import domain.entities.platform_specific_model.docker_compose.DockerNetwork
+import domain.exceptions.UnableToConvertException
 
 class DockerComposeConverter : ConverterToPIM {
     private val linksContainersToServices by lazy { hashMapOf<DockerContainer, Service>() }
@@ -27,7 +28,7 @@ class DockerComposeConverter : ConverterToPIM {
 
             return system
         } catch (ex: Exception) {
-            throw Exception("Unable to convert the docker compose project")
+            throw UnableToConvertException("Unable to convert the docker compose project")
         }
     }
 
@@ -69,11 +70,12 @@ class DockerComposeConverter : ConverterToPIM {
 
     private fun createServiceDbLinks(system: System) {
         linksContainersToServices.forEach { (container, service) ->
-            if (container.dependsOn == null) return
+            if (container.dependsOn.isEmpty()) return
 
-            val dependsOn = container.dependsOn!!
-            val db = linksContainersToDatabases[dependsOn] ?: return
-            system.bindDatabaseToService(db, service)
+            container.dependsOn.forEach { c ->
+                val db = linksContainersToDatabases[c] ?: return
+                system.bindDatabaseToService(db, service)
+            }
         }
     }
 

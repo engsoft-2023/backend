@@ -6,5 +6,5 @@ data class DockerContainer(val identifier: String) : Vertex() {
     var image: String = ""
     var build: String = ""
     var environment: HashMap<String, String> = hashMapOf()
-    var dependsOn: DockerContainer? = null
+    var dependsOn: MutableList<DockerContainer> = mutableListOf()
 }
