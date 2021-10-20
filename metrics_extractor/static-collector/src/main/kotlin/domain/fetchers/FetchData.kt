@@ -1,5 +1,5 @@
 package domain.fetchers
 
 interface FetchData {
-    fun run(url: String): Response
+    fun run(url: String): String
 }

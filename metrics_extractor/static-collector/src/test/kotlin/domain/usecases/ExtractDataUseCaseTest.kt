@@ -4,7 +4,6 @@ import domain.converters.ConverterToPIM
 import domain.entities.platform_independent_model.System
 import domain.entities.platform_specific_model.PlatformSpecificModel
 import domain.fetchers.FetchData
-import domain.fetchers.Response
 import domain.parsers.ParseData
 import domain.repositories.SystemRepository
 import org.junit.jupiter.api.Assertions.*
@@ -19,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension
 @ExtendWith(MockitoExtension::class)
 class ExtractDataUseCaseTest {
 
-    @Mock private lateinit var response: Response
     @Mock private lateinit var fetchData: FetchData
     @Mock private lateinit var parseData: ParseData
     @Mock private lateinit var converterToPIM: ConverterToPIM
@@ -30,8 +28,8 @@ class ExtractDataUseCaseTest {
     @BeforeEach
     fun init() {
         val psm = mock(PlatformSpecificModel::class.java)
-        `when`(fetchData.run(anyString())).thenReturn(response)
-        `when`(parseData.run(response)).thenReturn(psm)
+        `when`(fetchData.run(anyString())).thenReturn("")
+        `when`(parseData.run(anyString())).thenReturn(psm)
         `when`(converterToPIM.run(psm)).thenReturn(system)
         extractDataUseCase = ExtractDataUseCase(fetchData, parseData, converterToPIM, systemRepository)
     }
