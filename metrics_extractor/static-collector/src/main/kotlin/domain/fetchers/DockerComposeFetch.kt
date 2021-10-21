@@ -9,7 +9,7 @@ class DockerComposeFetch(private val httpAdapter: HTTPAdapter) : FetchData {
         val pattern = "(?:https?://)?(?:www\\.)?github\\.com/(.+)/(.+)/?".toRegex()
         val matchResult = pattern.matchEntire(url)
 
-        if (matchResult == null || matchResult.groupValues.isEmpty() || matchResult.groupValues.size < 3) {
+        if (matchResult == null || matchResult.groupValues.size < 3) {
             throw UnableToFetchDataException("Given url is invalid")
         }
 
@@ -20,7 +20,7 @@ class DockerComposeFetch(private val httpAdapter: HTTPAdapter) : FetchData {
         val response = httpAdapter.get(rawUrl)
 
         if (response.status != 200) {
-            throw UnableToFetchDataException("[Status ${response.status}: error while fetching")
+            throw UnableToFetchDataException("[Status ${response.status}]: error while fetching")
         }
 
         return response.data
