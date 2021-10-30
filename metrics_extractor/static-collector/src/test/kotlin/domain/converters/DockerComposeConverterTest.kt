@@ -16,7 +16,7 @@ class DockerComposeConverterTest {
         val net = DockerNetwork("my-project_default")
 
         val db = DockerContainer("db")
-        db.image = "mongodb:4.2"
+        db.image = "mongo:4.2"
 
         val app = DockerContainer("app")
         app.build = "."

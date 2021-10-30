@@ -28,7 +28,7 @@ class DockerComposeProjectTest {
     @DisplayName("check when a container represents a database")
     fun testWhenContainerIsDatabase() {
         val container = DockerContainer("db")
-        container.image = "mongodb:4.2"
+        container.image = "mongo:4.2"
         assertTrue(ContainerDecider.isDatabase(container))
     }
 

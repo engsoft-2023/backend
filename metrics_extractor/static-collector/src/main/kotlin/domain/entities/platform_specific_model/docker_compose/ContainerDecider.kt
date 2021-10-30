@@ -4,7 +4,7 @@ class ContainerDecider {
     companion object {
         private val databaseImages by lazy {
             listOf(
-                "mongodb" to ("MongoDB" to "NoSQL"),
+                "mongo" to ("MongoDB" to "NoSQL"),
                 "postgres" to ("PostgreSQL" to "Relational"),
                 "mysql" to ("MySQL" to "Relational"),
                 "mariadb" to ("MariaDB" to "Relational"),
