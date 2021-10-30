@@ -5,7 +5,7 @@ import domain.entities.platform_specific_model.docker_compose.DockerComposeProje
 import domain.entities.platform_specific_model.docker_compose.DockerContainer
 import domain.entities.platform_specific_model.docker_compose.DockerNetwork
 import domain.exceptions.UnableToParseDataException
-import domain.parsers.ParseData
+import domain.ports.ParseData
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 

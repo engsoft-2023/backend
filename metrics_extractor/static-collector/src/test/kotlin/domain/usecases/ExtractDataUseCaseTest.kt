@@ -4,8 +4,8 @@ import domain.converters.ConverterToPIM
 import domain.entities.platform_independent_model.System
 import domain.entities.platform_specific_model.PlatformSpecificModel
 import domain.fetchers.FetchData
-import domain.parsers.ParseData
-import domain.repositories.SystemRepository
+import domain.ports.ParseData
+import domain.ports.repositories.SystemRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName

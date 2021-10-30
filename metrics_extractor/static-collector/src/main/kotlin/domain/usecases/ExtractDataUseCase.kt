@@ -3,8 +3,8 @@ package domain.usecases
 import domain.converters.ConverterToPIM
 import domain.entities.platform_independent_model.System
 import domain.fetchers.FetchData
-import domain.parsers.*
-import domain.repositories.SystemRepository
+import domain.ports.ParseData
+import domain.ports.repositories.SystemRepository
 
 class ExtractDataUseCase(
     private val fetchData: FetchData,

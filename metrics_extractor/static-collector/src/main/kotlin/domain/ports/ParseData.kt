@@ -1,4 +1,4 @@
-package domain.parsers
+package domain.ports
 
 import domain.entities.platform_specific_model.PlatformSpecificModel
 

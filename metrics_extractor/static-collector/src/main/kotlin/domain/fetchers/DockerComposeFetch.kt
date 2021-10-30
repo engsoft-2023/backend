@@ -1,9 +1,9 @@
 package domain.fetchers
 
-import domain.adapters.HTTPAdapter
+import domain.ports.HTTPPort
 import domain.exceptions.UnableToFetchDataException
 
-class DockerComposeFetch(private val httpAdapter: HTTPAdapter) : FetchData {
+class DockerComposeFetch(private val httpPort: HTTPPort) : FetchData {
 
     override fun run(url: String): String {
         val pattern = "(?:https?://)?(?:www\\.)?github\\.com/(.+)/(.+)/?".toRegex()
@@ -17,7 +17,7 @@ class DockerComposeFetch(private val httpAdapter: HTTPAdapter) : FetchData {
         val repoName = matchResult.groupValues[2]
 
         val rawUrl = "https://raw.githubusercontent.com/${userOrOrgName}/${repoName}/main/docker-compose.yaml"
-        val response = httpAdapter.get(rawUrl)
+        val response = httpPort.get(rawUrl)
 
         if (response.status != 200) {
             throw UnableToFetchDataException("[Status ${response.status}]: error while fetching")

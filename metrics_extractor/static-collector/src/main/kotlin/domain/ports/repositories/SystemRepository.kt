@@ -1,4 +1,4 @@
-package domain.repositories
+package domain.ports.repositories
 
 import domain.entities.platform_independent_model.System
 
