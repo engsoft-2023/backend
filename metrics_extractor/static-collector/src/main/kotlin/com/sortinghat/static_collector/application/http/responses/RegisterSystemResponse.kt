@@ -21,5 +21,5 @@ class RegisterSystemResponse(system: System) {
         }
     }
 
-    inner class ServiceDbLink(val dbId: String, val serviceId: String, val payload: Any?)
+    class ServiceDbLink(val dbId: String, val serviceId: String, val payload: Any?)
 }

@@ -21,20 +21,13 @@ class SystemController {
             DockerComposeFetch(HTTPHandler()),
             YAMLParser(),
             DockerComposeConverter(),
-            MockSystemRepo()
+            object : SystemRepository {
+                override fun save(system: System) { println("System saved") }
+                override fun findByName(name: String): System? = null
+            }
         )
 
         val system = extractDataUseCase.run(request.repoUrl)
         return RegisterSystemResponse(system)
-    }
-
-    inner class MockSystemRepo : SystemRepository {
-        override fun save(system: System) {
-            println("System saved")
-        }
-
-        override fun findByName(name: String): System? {
-            return null
-        }
     }
 }
