@@ -5,6 +5,7 @@ import com.sortinghat.static_collector.domain.entities.platform_specific_model.d
 import com.sortinghat.static_collector.domain.entities.platform_specific_model.docker_compose.DockerContainer
 import com.sortinghat.static_collector.domain.entities.platform_specific_model.docker_compose.DockerNetwork
 import com.sortinghat.static_collector.domain.exceptions.UnableToParseDataException
+import com.sortinghat.static_collector.domain.fetchers.FetchResponse
 import com.sortinghat.static_collector.domain.ports.ParseData
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -13,7 +14,8 @@ class YAMLParser : ParseData {
     private val mapContainerToDependsOn by lazy { hashMapOf<DockerContainer, List<String>>() }
     private val mapNameToContainer by lazy { hashMapOf<String, DockerContainer>() }
 
-    override fun run(data: String): PlatformSpecificModel {
+    override fun run(fetchResponse: FetchResponse): PlatformSpecificModel {
+        val (systemName, data) = fetchResponse
         val yaml = Yaml()
         val dockerCompose: HashMap<String, Any> = yaml.load(data)
 
@@ -22,7 +24,7 @@ class YAMLParser : ParseData {
         }
 
         try {
-            val dockerProject = DockerComposeProject("project")
+            val dockerProject = DockerComposeProject(systemName)
             createContainers(dockerProject, dockerCompose)
             createNetworks(dockerProject)
             mapDependsOn()

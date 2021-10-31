@@ -5,7 +5,7 @@ import com.sortinghat.static_collector.domain.exceptions.UnableToFetchDataExcept
 
 class DockerComposeFetch(private val httpPort: HTTPPort) : FetchData {
 
-    override fun run(url: String): String {
+    override fun run(url: String): FetchResponse {
         val pattern = "(?:https?://)?(?:www\\.)?github\\.com/(.+)/(.+)/?".toRegex()
         val matchResult = pattern.matchEntire(url)
 
@@ -23,6 +23,6 @@ class DockerComposeFetch(private val httpPort: HTTPPort) : FetchData {
             throw UnableToFetchDataException("[Status ${response.status}]: error while fetching")
         }
 
-        return response.data
+        return FetchResponse(repoName, response.data)
     }
 }

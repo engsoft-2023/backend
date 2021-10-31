@@ -4,32 +4,30 @@ import com.sortinghat.static_collector.domain.converters.ConverterToPIM
 import com.sortinghat.static_collector.domain.entities.platform_independent_model.System
 import com.sortinghat.static_collector.domain.entities.platform_specific_model.PlatformSpecificModel
 import com.sortinghat.static_collector.domain.fetchers.FetchData
+import com.sortinghat.static_collector.domain.fetchers.FetchResponse
 import com.sortinghat.static_collector.domain.ports.ParseData
 import com.sortinghat.static_collector.domain.ports.repositories.SystemRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class)
 class ExtractDataUseCaseTest {
 
-    @Mock private lateinit var fetchData: FetchData
-    @Mock private lateinit var parseData: ParseData
-    @Mock private lateinit var converterToPIM: ConverterToPIM
-    @Mock private lateinit var systemRepository: SystemRepository
     private lateinit var extractDataUseCase: ExtractDataUseCase
+    private val fetchData by lazy { mock(FetchData::class.java) }
+    private val parseData by lazy { mock(ParseData::class.java) }
+    private val converterToPIM by lazy { mock(ConverterToPIM::class.java) }
+    private val systemRepository by lazy { mock(SystemRepository::class.java) }
     private val system = System("Sorting Hat")
 
     @BeforeEach
     fun init() {
+        val response = FetchResponse("", "")
         val psm = mock(PlatformSpecificModel::class.java)
-        `when`(fetchData.run(anyString())).thenReturn("")
-        `when`(parseData.run(anyString())).thenReturn(psm)
+        `when`(fetchData.run(anyString())).thenReturn(response)
+        `when`(parseData.run(response)).thenReturn(psm)
         `when`(converterToPIM.run(psm)).thenReturn(system)
         extractDataUseCase = ExtractDataUseCase(fetchData, parseData, converterToPIM, systemRepository)
     }
