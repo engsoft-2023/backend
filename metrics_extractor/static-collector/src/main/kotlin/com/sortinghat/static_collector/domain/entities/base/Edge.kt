@@ -1,0 +1,10 @@
+package com.sortinghat.static_collector.domain.entities.base
+
+abstract class Edge(private val u: Vertex, private val v: Vertex, private val payload: Any? = null) {
+    fun either() = this.u
+    fun other(w: Vertex): Vertex =
+        if (w.id == this.u.id)
+            this.v
+        else
+            this.u
+}
