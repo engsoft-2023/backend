@@ -5,7 +5,6 @@ import com.sortinghat.static_collector.domain.entities.platform_specific_model.d
 import com.sortinghat.static_collector.domain.entities.platform_specific_model.docker_compose.DockerNetwork
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 class DockerComposeConverterTest {
@@ -31,8 +30,7 @@ class DockerComposeConverterTest {
     }
 
     @Test
-    @DisplayName("it returns a valid system for a given docker compose")
-    fun testConvertingDockerProjectToSystem() {
+    fun `it returns a valid system for a given docker compose`() {
         val converter = DockerComposeConverter()
         val system = converter.run(dcProject)
         val databases = system.databases()

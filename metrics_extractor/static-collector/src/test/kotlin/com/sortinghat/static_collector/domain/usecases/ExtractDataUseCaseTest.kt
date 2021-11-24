@@ -9,7 +9,6 @@ import com.sortinghat.static_collector.domain.ports.ParseData
 import com.sortinghat.static_collector.domain.ports.repositories.SystemRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 
@@ -33,15 +32,13 @@ class ExtractDataUseCaseTest {
     }
 
     @Test
-    @DisplayName("call extract use case for a system which name already exists will throw an exception")
-    fun testWhenSystemAlreadyExists() {
+    fun `call extract use case for a system which name already exists will throw an exception`() {
         `when`(systemRepository.findByName(anyString())).thenReturn(System("Sorting Hat"))
         assertThrows(Exception::class.java) { extractDataUseCase.run("https://github.com") }
     }
 
     @Test
-    @DisplayName("it works properly for a system which name doesn't exist")
-    fun testWhenSystemDoesNotExist() {
+    fun `it works properly for a system which name doesn't exist`() {
         `when`(systemRepository.findByName(anyString())).thenReturn(null)
         val s = extractDataUseCase.run("https://github.com")
         verify(systemRepository, times(1)).save(system)

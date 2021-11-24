@@ -2,7 +2,6 @@ package com.sortinghat.static_collector.domain.entities.platform_independent_mod
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.util.*
 
@@ -15,14 +14,12 @@ class SystemTest {
     }
 
     @Test
-    @DisplayName("check if system has a valid id")
-    fun testSystemId() {
+    fun `check whether system has a valid id`() {
         assertDoesNotThrow { UUID.fromString(system.id) }
     }
 
     @Test
-    @DisplayName("add new context, service and database in a system")
-    fun testAddContextServiceAndDatabaseVertices() {
+    fun `add new context, service and database in a system`() {
         val context = Context("data-collector")
         val service = Service("data-collector")
         val database = Database("data-collector-db", "MongoDB", "NoSQL")
@@ -37,8 +34,7 @@ class SystemTest {
     }
 
     @Test
-    @DisplayName("binding contexts, services and databases in a system")
-    fun testAddContextServiceAndDatabaseEdges() {
+    fun `binding contexts, services and databases in a system`() {
         val context = Context("data-collector")
         val service = Service("data-collector")
         val database = Database("data-collector-db", "MongoDB", "NoSQL")

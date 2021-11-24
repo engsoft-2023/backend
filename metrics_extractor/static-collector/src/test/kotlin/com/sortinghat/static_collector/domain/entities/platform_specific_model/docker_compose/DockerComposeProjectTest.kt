@@ -25,23 +25,20 @@ class DockerComposeProjectTest {
     }
 
     @Test
-    @DisplayName("check when a container represents a database")
-    fun testWhenContainerIsDatabase() {
+    fun `check when a container represents a database`() {
         val container = DockerContainer("db")
         container.image = "mongo:4.2"
         assertTrue(ContainerDecider.isDatabase(container))
     }
 
     @Test
-    @DisplayName("check when a container doesn't represent a database")
-    fun testWhenContainerIsNotDatabase() {
+    fun `check when a container doesn't represent a database`() {
         val container = DockerContainer("db")
         assertFalse(ContainerDecider.isDatabase(container))
     }
 
     @Test
-    @DisplayName("check when a container represents a service")
-    fun testWhenContainerIsService() {
+    fun `check when a container represents a service`() {
         val container = DockerContainer("app")
         container.build = "."
         assertTrue(ContainerDecider.isService(container))
