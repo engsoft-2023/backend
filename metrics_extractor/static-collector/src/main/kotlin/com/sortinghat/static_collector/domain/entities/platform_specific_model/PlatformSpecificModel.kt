@@ -1,3 +1,0 @@
-package com.sortinghat.static_collector.domain.entities.platform_specific_model
-
-abstract class PlatformSpecificModel
