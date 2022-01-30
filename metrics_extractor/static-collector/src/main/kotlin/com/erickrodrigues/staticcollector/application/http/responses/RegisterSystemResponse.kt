@@ -17,7 +17,7 @@ class RegisterSystemResponse(system: ServiceBasedSystem) {
         services = system.services()
         databases = system.databases()
         linksServicesDbs = system.linksDatabasesServices().map {
-                (db, service, payload) -> ServiceDbLink(db.id, service.id, payload)
+                ServiceDbLink(it.db.id, it.service.id, it.payload)
         }
     }
 
