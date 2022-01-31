@@ -11,6 +11,7 @@ import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsA
 import com.erickrodrigues.staticcollector.domain.fetchers.DataFetcher
 import com.erickrodrigues.staticcollector.domain.fetchers.FetchResponse
 import com.erickrodrigues.staticcollector.domain.parsers.DataParser
+import com.erickrodrigues.staticcollector.domain.ports.MessageBroker
 import com.erickrodrigues.staticcollector.domain.ports.ServiceBasedSystemRepository
 import com.erickrodrigues.staticcollector.domain.usecases.ExtractDataUseCase
 import org.junit.jupiter.api.Assertions.*
@@ -46,6 +47,7 @@ class SystemControllerTest {
                 val parser = mock(DataParser::class.java)
                 val converter = mock(ConverterToDomain::class.java)
                 val repo = mock(ServiceBasedSystemRepository::class.java)
+                val broker = mock(MessageBroker::class.java)
                 val controller = SystemController(factory)
                 val request = RegisterSystemRequest("https://foo.com/bar")
 
@@ -56,6 +58,7 @@ class SystemControllerTest {
                 `when`(factory.createDataParser()).thenReturn(parser)
                 `when`(factory.createConverterToDomain()).thenReturn(converter)
                 `when`(factory.createServiceBasedSystemRepository()).thenReturn(repo)
+                `when`(factory.createMessageBroker()).thenReturn(broker)
                 `when`(extractDataUseCase.run(anyString())).thenReturn(system)
 
                 response = controller.registerSystem(request)
