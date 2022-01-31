@@ -3,6 +3,7 @@ package com.erickrodrigues.staticcollector.domain.usecases
 import com.erickrodrigues.staticcollector.domain.converters.ConverterToDomain
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import com.erickrodrigues.staticcollector.domain.entities.SpecificTechnology
+import com.erickrodrigues.staticcollector.domain.exceptions.EntityAlreadyExistsException
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.erickrodrigues.staticcollector.domain.fetchers.DataFetcher
 import com.erickrodrigues.staticcollector.domain.fetchers.FetchResponse
@@ -41,7 +42,7 @@ class ExtractDataUseCaseTest {
     @Test
     fun `call extract use case for a system which name already exists will throw an exception`() {
         `when`(repo.findByName(anyString())).thenReturn(ServiceBasedSystem("Sorting Hat"))
-        assertThrows(Exception::class.java) { extractDataUseCase.run("https://github.com") }
+        assertThrows(EntityAlreadyExistsException::class.java) { extractDataUseCase.run("https://github.com") }
     }
 
     @Test

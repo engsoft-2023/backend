@@ -46,6 +46,9 @@ class SystemControllerTest {
                 val parser = mock(DataParser::class.java)
                 val converter = mock(ConverterToDomain::class.java)
                 val repo = mock(ServiceBasedSystemRepository::class.java)
+                val controller = SystemController(factory)
+                val request = RegisterSystemRequest("https://foo.com/bar")
+
                 `when`(fetcher.run(anyString())).thenReturn(res)
                 `when`(parser.run(res)).thenReturn(specificTechnology)
                 `when`(converter.run(specificTechnology)).thenReturn(system)
@@ -55,16 +58,13 @@ class SystemControllerTest {
                 `when`(factory.createServiceBasedSystemRepository()).thenReturn(repo)
                 `when`(extractDataUseCase.run(anyString())).thenReturn(system)
 
-                val controller = SystemController(factory)
-                val request = RegisterSystemRequest("https://foo.com/bar")
                 response = controller.registerSystem(request)
             }
 
             @Test
-            fun `it returns a successful status code`() {
+            fun `it returns a created status code`() {
                 val status = response.statusCodeValue
-                val isSuccessCode = status in 200..299
-                assertTrue(isSuccessCode)
+                assertEquals(201, status)
             }
 
             @Test
@@ -87,11 +87,13 @@ class SystemControllerTest {
             private lateinit var factory: ExtractionComponentsAbstractFactory
             private lateinit var fetcher: DataFetcher
             private lateinit var parser: DataParser
+            private lateinit var converter: ConverterToDomain
+            private lateinit var repo: ServiceBasedSystemRepository
 
             @BeforeEach
             fun init() {
-                val converter = mock(ConverterToDomain::class.java)
-                val repo = mock(ServiceBasedSystemRepository::class.java)
+                converter = mock(ConverterToDomain::class.java)
+                repo = mock(ServiceBasedSystemRepository::class.java)
                 fetcher = mock(DataFetcher::class.java)
                 parser = mock(DataParser::class.java)
                 factory = mock(ExtractionComponentsAbstractFactory::class.java)
@@ -107,11 +109,11 @@ class SystemControllerTest {
 
                 @BeforeEach
                 fun init() {
-                    `when`(fetcher.run(anyString()))
-                        .thenAnswer { throw UnableToFetchDataException("") }
-
                     val controller = SystemController(factory)
                     val request = RegisterSystemRequest("https://foo.com/bar")
+
+                    `when`(fetcher.run(anyString())).thenAnswer { throw UnableToFetchDataException("") }
+
                     response = controller.registerSystem(request)
                 }
 
@@ -128,16 +130,13 @@ class SystemControllerTest {
 
                 @BeforeEach
                 fun init() {
-                    val fetchResponse = FetchResponse("foo", "bar")
-
-                    `when`(fetcher.run(anyString()))
-                        .thenReturn(fetchResponse)
-
-                    `when`(parser.run(fetchResponse))
-                        .thenAnswer { throw UnableToParseDataException("") }
-
                     val controller = SystemController(factory)
                     val request = RegisterSystemRequest("https://foo.com/bar")
+                    val fetchResponse = FetchResponse("foo", "bar")
+
+                    `when`(fetcher.run(anyString())).thenReturn(fetchResponse)
+                    `when`(parser.run(fetchResponse)).thenAnswer { throw UnableToParseDataException("") }
+
                     response = controller.registerSystem(request)
                 }
 
@@ -145,6 +144,32 @@ class SystemControllerTest {
                 fun `it returns a bad request status code`() {
                     val status = response.statusCodeValue
                     assertEquals(400, status)
+                }
+            }
+
+            @Nested
+            @DisplayName("when system with that name already exists")
+            inner class ConflictFail {
+
+                @BeforeEach
+                fun init() {
+                    val controller = SystemController(factory)
+                    val request = RegisterSystemRequest("https://foo.com/bar")
+                    val fetchResponse = FetchResponse("foo", "bar")
+                    val specificTechnology = mock(SpecificTechnology::class.java)
+
+                    `when`(fetcher.run(anyString())).thenReturn(fetchResponse)
+                    `when`(parser.run(fetchResponse)).thenReturn(specificTechnology)
+                    `when`(converter.run(specificTechnology)).thenReturn(ServiceBasedSystem("bar"))
+                    `when`(repo.findByName(anyString())).thenReturn(ServiceBasedSystem("bar"))
+
+                    response = controller.registerSystem(request)
+                }
+
+                @Test
+                fun `it returns a conflict status code`() {
+                    val status = response.statusCodeValue
+                    assertEquals(409, status)
                 }
             }
         }

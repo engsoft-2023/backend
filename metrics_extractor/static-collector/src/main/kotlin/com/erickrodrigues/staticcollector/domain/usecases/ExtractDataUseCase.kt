@@ -2,6 +2,7 @@ package com.erickrodrigues.staticcollector.domain.usecases
 
 import com.erickrodrigues.staticcollector.domain.converters.ConverterToDomain
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
+import com.erickrodrigues.staticcollector.domain.exceptions.EntityAlreadyExistsException
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.erickrodrigues.staticcollector.domain.fetchers.DataFetcher
 import com.erickrodrigues.staticcollector.domain.parsers.DataParser
@@ -32,7 +33,7 @@ class ExtractDataUseCase(factory: ExtractionComponentsAbstractFactory) {
         val sys = repository.findByName(system.name)
 
         if (sys != null)
-            throw Exception("system with this name already exists")
+            throw EntityAlreadyExistsException("system with that name already exists")
 
         repository.save(system)
     }
