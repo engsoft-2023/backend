@@ -4,7 +4,9 @@ import com.erickrodrigues.staticcollector.domain.entities.Database
 import com.erickrodrigues.staticcollector.domain.entities.Service
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import com.erickrodrigues.staticcollector.domain.ports.ServiceBasedSystemRepository
+import org.springframework.stereotype.Component
 
+@Component
 class SystemMongoDbRepo(private val repo: SpringDataMongoSystemRepository) : ServiceBasedSystemRepository {
 
     override fun findByName(name: String): ServiceBasedSystem? {
