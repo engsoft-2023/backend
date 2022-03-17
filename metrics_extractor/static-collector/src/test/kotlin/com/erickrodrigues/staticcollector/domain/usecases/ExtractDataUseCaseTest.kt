@@ -5,10 +5,6 @@ import com.erickrodrigues.staticcollector.domain.entities.Database
 import com.erickrodrigues.staticcollector.domain.entities.Service
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import com.erickrodrigues.staticcollector.domain.entities.SpecificTechnology
-import com.erickrodrigues.staticcollector.domain.events.NewDatabase
-import com.erickrodrigues.staticcollector.domain.events.NewService
-import com.erickrodrigues.staticcollector.domain.events.NewSystem
-import com.erickrodrigues.staticcollector.domain.events.NewUsage
 import com.erickrodrigues.staticcollector.domain.exceptions.EntityAlreadyExistsException
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.erickrodrigues.staticcollector.domain.fetchers.DataFetcher
@@ -21,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.*
+import org.mockito.kotlin.any
 
 class ExtractDataUseCaseTest {
 
@@ -64,18 +61,17 @@ class ExtractDataUseCaseTest {
     @Test
     fun `it works properly for a system which name doesn't exist`() {
         `when`(repo.findByName(anyString())).thenReturn(null)
-        val s = extractDataUseCase.run("https://github.com")
-        verify(repo, times(1)).save(system)
-        assertEquals(system, s)
+        extractDataUseCase.run("https://github.com")
+        verify(repo, times(1)).save(any())
     }
 
     @Test
     fun `it sends the collected data to the message queue`() {
         `when`(repo.findByName(anyString())).thenReturn(null)
         extractDataUseCase.run("https://github.com")
-        verify(broker, times(1)).newSystem(NewSystem(system.id, system.name))
-        verify(broker, times(1)).newService(NewService("1", "foo", "3"))
-        verify(broker, times(1)).newDatabase(NewDatabase("2", "baz"))
-        verify(broker, times(0)).newUsage(NewUsage("", ""))
+        verify(broker, times(1)).newSystem(any())
+        verify(broker, times(1)).newService(any())
+        verify(broker, times(1)).newDatabase(any())
+        verify(broker, times(0)).newUsage(any())
     }
 }

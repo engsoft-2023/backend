@@ -5,7 +5,6 @@ import com.erickrodrigues.staticcollector.domain.entities.Service
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
@@ -21,17 +20,16 @@ class SystemMongoDbRepoTest {
             databases = listOf(AppDb("3", "my-db", "MongoDB", "NoSQL")),
             linksDbService = listOf(AppLinkDbService("3", "2", "static-collector-db"))
         )
-        `when`(repo.findOneByNameIn(anyString())).thenReturn(system)
+        `when`(repo.findOneByNameIn("foo")).thenReturn(system)
         val systemMongoDbRepo = SystemMongoDbRepo(repo)
-        val domainSystem = systemMongoDbRepo.findByName("bar")!!
-        val serviceString = "Service(name=my-service, id=2)"
-        val dbString = "Database(make=MongoDB, model=NoSQL, name=my-db, id=3)"
-        val linkDbService = "DbServiceEdge(db=$dbString, service=$serviceString, payload=static-collector-db)"
+        val domainSystem = systemMongoDbRepo.findByName("foo")!!
         assertEquals("1", domainSystem.id)
         assertEquals("foo", domainSystem.name)
-        assertEquals("[$serviceString]", domainSystem.services().toString())
-        assertEquals("[$dbString]", domainSystem.databases().toString())
-        assertEquals("[$linkDbService]", domainSystem.linksDatabasesServices().toString())
+        assertEquals(1, domainSystem.services().size)
+        assertEquals(1, domainSystem.databases().size)
+        assertEquals(1, domainSystem.linksDatabasesServices().size)
+        assertEquals("2", domainSystem.linksDatabasesServices()[0].service.id)
+        assertEquals("3", domainSystem.linksDatabasesServices()[0].db.id)
     }
 
     @Test

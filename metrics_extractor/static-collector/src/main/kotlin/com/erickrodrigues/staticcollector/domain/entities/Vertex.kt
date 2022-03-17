@@ -2,7 +2,7 @@ package com.erickrodrigues.staticcollector.domain.entities
 
 import java.util.UUID
 
-abstract class Vertex : GraphComponent {
+abstract class Vertex {
     val id: String
 
     constructor() {
