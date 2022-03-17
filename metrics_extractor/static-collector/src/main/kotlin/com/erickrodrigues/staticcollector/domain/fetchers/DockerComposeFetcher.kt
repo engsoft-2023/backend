@@ -2,6 +2,7 @@ package com.erickrodrigues.staticcollector.domain.fetchers
 
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToFetchDataException
 import com.erickrodrigues.staticcollector.domain.http.HttpPort
+import com.erickrodrigues.staticcollector.domain.vo.FetchResponse
 
 class DockerComposeFetcher(private val httpPort: HttpPort) : DataFetcher {
 

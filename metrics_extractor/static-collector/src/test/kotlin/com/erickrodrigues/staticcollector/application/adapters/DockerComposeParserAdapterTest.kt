@@ -1,13 +1,13 @@
-package com.erickrodrigues.staticcollector.application.yaml
+package com.erickrodrigues.staticcollector.application.adapters
 
 import com.erickrodrigues.staticcollector.domain.dockercompose.DockerCompose
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToParseDataException
-import com.erickrodrigues.staticcollector.domain.fetchers.FetchResponse
+import com.erickrodrigues.staticcollector.domain.vo.FetchResponse
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 
-class DockerComposeParserTest {
+class DockerComposeParserAdapterTest {
 
     @Nested
     @DisplayName("when parsing is successful")
@@ -47,7 +47,7 @@ class DockerComposeParserTest {
                 my_network:
                     driver: bridge
         """.trimIndent()
-            val parser = DockerComposeParser()
+            val parser = DockerComposeParserAdapter()
             dockerCompose = parser.run(FetchResponse("my-system", dockerComposeString)) as DockerCompose
         }
 
@@ -94,7 +94,7 @@ class DockerComposeParserTest {
             val dockerComposeString = """
                 foo: bar
             """.trimIndent()
-            val parser = DockerComposeParser()
+            val parser = DockerComposeParserAdapter()
             assertThrows<UnableToParseDataException> {
                 parser.run(FetchResponse("my-system", dockerComposeString)) as DockerCompose
             }

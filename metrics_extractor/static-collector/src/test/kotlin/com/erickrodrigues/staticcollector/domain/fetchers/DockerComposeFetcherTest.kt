@@ -2,7 +2,7 @@ package com.erickrodrigues.staticcollector.domain.fetchers
 
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToFetchDataException
 import com.erickrodrigues.staticcollector.domain.http.HttpPort
-import com.erickrodrigues.staticcollector.domain.http.ResponseHttp
+import com.erickrodrigues.staticcollector.domain.vo.ResponseHttp
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyString

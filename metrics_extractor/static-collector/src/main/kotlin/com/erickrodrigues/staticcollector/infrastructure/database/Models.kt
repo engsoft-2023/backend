@@ -7,21 +7,21 @@ import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-data class AppService(
+data class ServiceSchema(
     @Id
     val id: String,
     val name: String
 ) {
     companion object {
         fun createFromDomain(s: Service) =
-            AppService(
+            ServiceSchema(
                 id = s.id,
                 name = s.name
             )
     }
 }
 
-data class AppDb(
+data class DbSchema(
     @Id
     val id: String,
     val name: String,
@@ -30,7 +30,7 @@ data class AppDb(
 ) {
     companion object {
         fun createFromDomain(db: Database) =
-            AppDb(
+            DbSchema(
                 id = db.id,
                 name = db.name,
                 make = db.make,
@@ -39,14 +39,14 @@ data class AppDb(
     }
 }
 
-data class AppLinkDbService(
+data class LinkDbServiceSchema(
     val dbId: String,
     val serviceId: String,
     val payload: Any?
 ) {
     companion object {
         fun createFromDomain(link: DbServiceEdge) =
-            AppLinkDbService(
+            LinkDbServiceSchema(
                 dbId = link.db.id,
                 serviceId = link.service.id,
                 payload = link.payload
@@ -55,22 +55,22 @@ data class AppLinkDbService(
 }
 
 @Document
-data class System(
+data class SystemSchema(
     @Id
     val id: String,
     val name: String,
-    val services: List<AppService>,
-    val databases: List<AppDb>,
-    val linksDbService: List<AppLinkDbService>
+    val services: List<ServiceSchema>,
+    val databases: List<DbSchema>,
+    val linksDbService: List<LinkDbServiceSchema>
 ) {
     companion object {
         fun createFromDomain(s: ServiceBasedSystem) =
-            System(
+            SystemSchema(
                 id = s.id,
                 name = s.name,
-                services = s.services().map { AppService.createFromDomain(it) },
-                databases = s.databases().map { AppDb.createFromDomain(it) },
-                linksDbService = s.linksDatabasesServices().map { AppLinkDbService.createFromDomain(it) }
+                services = s.services().map { ServiceSchema.createFromDomain(it) },
+                databases = s.databases().map { DbSchema.createFromDomain(it) },
+                linksDbService = s.linksDatabasesServices().map { LinkDbServiceSchema.createFromDomain(it) }
             )
     }
 }

@@ -3,7 +3,7 @@ package com.erickrodrigues.staticcollector.domain.entities
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class ServiceBasedSystemTest {
+class ServiceBasedSystemSchemaTest {
 
     @Test
     fun `add service to system`() {

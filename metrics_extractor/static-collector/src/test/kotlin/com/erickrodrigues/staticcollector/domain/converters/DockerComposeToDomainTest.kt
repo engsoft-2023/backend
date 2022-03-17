@@ -12,16 +12,13 @@ import org.mockito.Mockito.mock
 
 class DockerComposeToDomainTest {
     private val dockerCompose by lazy {
-        val dc = DockerCompose("3.7", null)
-        dc.name = "my-system"
-        dc
+        DockerCompose(name = "my-system")
     }
 
     @BeforeEach
     fun init() {
-        val db = DockerContainer(null, "mongo:4.2")
-        val app = DockerContainer("docker/")
-        app.depends_on = listOf("db")
+        val db = DockerContainer(image = "mongo:4.2")
+        val app = DockerContainer(build = "docker/", depends_on = listOf("db"))
         dockerCompose.services = hashMapOf(
             "db" to db,
             "app" to app

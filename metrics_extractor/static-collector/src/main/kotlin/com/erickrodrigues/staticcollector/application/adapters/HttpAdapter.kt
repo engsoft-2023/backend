@@ -1,7 +1,7 @@
-package com.erickrodrigues.staticcollector.application.http
+package com.erickrodrigues.staticcollector.application.adapters
 
 import com.erickrodrigues.staticcollector.domain.http.HttpPort
-import com.erickrodrigues.staticcollector.domain.http.ResponseHttp
+import com.erickrodrigues.staticcollector.domain.vo.ResponseHttp
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest

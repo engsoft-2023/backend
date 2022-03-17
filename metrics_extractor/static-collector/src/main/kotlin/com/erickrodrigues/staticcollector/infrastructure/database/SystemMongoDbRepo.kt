@@ -20,10 +20,10 @@ class SystemMongoDbRepo(private val repo: SpringDataMongoSystemRepository) : Ser
     }
 
     override fun save(system: ServiceBasedSystem) {
-        repo.save(System.createFromDomain(system))
+        repo.save(SystemSchema.createFromDomain(system))
     }
 
-    private fun convertMongoObjectToDomain(s: System?): ServiceBasedSystem? {
+    private fun convertMongoObjectToDomain(s: SystemSchema?): ServiceBasedSystem? {
         if (s == null) return null
 
         val domainSystem = ServiceBasedSystem(s.id, s.name)

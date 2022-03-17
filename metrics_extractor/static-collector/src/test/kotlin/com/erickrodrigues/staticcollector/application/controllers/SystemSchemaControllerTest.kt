@@ -1,8 +1,8 @@
 package com.erickrodrigues.staticcollector.application.controllers
 
 import com.erickrodrigues.staticcollector.application.factories.GetSystemUseCaseFactory
-import com.erickrodrigues.staticcollector.application.http.requests.RegisterSystemRequest
-import com.erickrodrigues.staticcollector.application.http.responses.RegisterSystemResponse
+import com.erickrodrigues.staticcollector.application.dto.RegisterSystemDto
+import com.erickrodrigues.staticcollector.application.dto.SystemDto
 import com.erickrodrigues.staticcollector.domain.converters.ConverterToDomain
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import com.erickrodrigues.staticcollector.domain.entities.SpecificTechnology
@@ -10,11 +10,11 @@ import com.erickrodrigues.staticcollector.domain.exceptions.UnableToFetchDataExc
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToParseDataException
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.erickrodrigues.staticcollector.domain.fetchers.DataFetcher
-import com.erickrodrigues.staticcollector.domain.fetchers.FetchResponse
-import com.erickrodrigues.staticcollector.domain.parsers.DataParser
+import com.erickrodrigues.staticcollector.domain.vo.FetchResponse
+import com.erickrodrigues.staticcollector.domain.ports.DataParserPort
 import com.erickrodrigues.staticcollector.domain.ports.MessageBroker
 import com.erickrodrigues.staticcollector.domain.ports.ServiceBasedSystemRepository
-import com.erickrodrigues.staticcollector.domain.usecases.ExtractDataUseCase
+import com.erickrodrigues.staticcollector.domain.services.ExtractData
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -26,7 +26,7 @@ import org.mockito.Mockito.mock
 import org.springframework.http.ResponseEntity
 
 @DisplayName("SystemController")
-class SystemControllerTest {
+class SystemSchemaControllerTest {
 
     @Nested
     @DisplayName("POST /systems")
@@ -35,22 +35,22 @@ class SystemControllerTest {
         @Nested
         @DisplayName("when request is successful")
         inner class SuccessfulRequest {
-            private lateinit var response: ResponseEntity<RegisterSystemResponse>
+            private lateinit var response: ResponseEntity<SystemDto>
 
             @BeforeEach
             fun init() {
                 val system = ServiceBasedSystem("my-system")
                 val res = FetchResponse("my-system", "")
-                val extractDataUseCase = mock(ExtractDataUseCase::class.java)
+                val extractData = mock(ExtractData::class.java)
                 val specificTechnology = mock(SpecificTechnology::class.java)
                 val factory = mock(ExtractionComponentsAbstractFactory::class.java)
                 val fetcher = mock(DataFetcher::class.java)
-                val parser = mock(DataParser::class.java)
+                val parser = mock(DataParserPort::class.java)
                 val converter = mock(ConverterToDomain::class.java)
                 val repo = mock(ServiceBasedSystemRepository::class.java)
                 val broker = mock(MessageBroker::class.java)
                 val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                val request = RegisterSystemRequest("https://foo.com/bar")
+                val request = RegisterSystemDto("https://foo.com/bar")
 
                 `when`(fetcher.run(anyString())).thenReturn(res)
                 `when`(parser.run(res)).thenReturn(specificTechnology)
@@ -60,7 +60,7 @@ class SystemControllerTest {
                 `when`(factory.createConverterToDomain()).thenReturn(converter)
                 `when`(factory.createServiceBasedSystemRepository()).thenReturn(repo)
                 `when`(factory.createMessageBroker()).thenReturn(broker)
-                `when`(extractDataUseCase.run(anyString())).thenReturn(system)
+                `when`(extractData.run(anyString())).thenReturn(system)
 
                 response = controller.registerSystem(request)
             }
@@ -87,10 +87,10 @@ class SystemControllerTest {
         @Nested
         @DisplayName("when request fails")
         inner class FailedRequest {
-            private lateinit var response: ResponseEntity<RegisterSystemResponse>
+            private lateinit var response: ResponseEntity<SystemDto>
             private lateinit var factory: ExtractionComponentsAbstractFactory
             private lateinit var fetcher: DataFetcher
-            private lateinit var parser: DataParser
+            private lateinit var parser: DataParserPort
             private lateinit var converter: ConverterToDomain
             private lateinit var repo: ServiceBasedSystemRepository
 
@@ -99,7 +99,7 @@ class SystemControllerTest {
                 converter = mock(ConverterToDomain::class.java)
                 repo = mock(ServiceBasedSystemRepository::class.java)
                 fetcher = mock(DataFetcher::class.java)
-                parser = mock(DataParser::class.java)
+                parser = mock(DataParserPort::class.java)
                 factory = mock(ExtractionComponentsAbstractFactory::class.java)
                 `when`(factory.createDataFetcher()).thenReturn(fetcher)
                 `when`(factory.createDataParser()).thenReturn(parser)
@@ -114,7 +114,7 @@ class SystemControllerTest {
                 @BeforeEach
                 fun init() {
                     val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                    val request = RegisterSystemRequest("https://foo.com/bar")
+                    val request = RegisterSystemDto("https://foo.com/bar")
 
                     `when`(fetcher.run(anyString())).thenAnswer { throw UnableToFetchDataException("") }
 
@@ -135,7 +135,7 @@ class SystemControllerTest {
                 @BeforeEach
                 fun init() {
                     val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                    val request = RegisterSystemRequest("https://foo.com/bar")
+                    val request = RegisterSystemDto("https://foo.com/bar")
                     val fetchResponse = FetchResponse("foo", "bar")
 
                     `when`(fetcher.run(anyString())).thenReturn(fetchResponse)
@@ -158,7 +158,7 @@ class SystemControllerTest {
                 @BeforeEach
                 fun init() {
                     val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                    val request = RegisterSystemRequest("https://foo.com/bar")
+                    val request = RegisterSystemDto("https://foo.com/bar")
                     val fetchResponse = FetchResponse("foo", "bar")
                     val specificTechnology = mock(SpecificTechnology::class.java)
 

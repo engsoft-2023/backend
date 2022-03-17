@@ -8,19 +8,19 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
-class SystemMongoDbRepoTest {
+class SystemSchemaMongoDbRepoTest {
     private val repo = mock(SpringDataMongoSystemRepository::class.java)
 
     @Test
     fun `it returns the domain object when it finds the system in database by name`() {
-        val system = System(
+        val systemSchema = SystemSchema(
             id = "1",
             name = "foo",
-            services = listOf(AppService("2", "my-service")),
-            databases = listOf(AppDb("3", "my-db", "MongoDB", "NoSQL")),
-            linksDbService = listOf(AppLinkDbService("3", "2", "static-collector-db"))
+            services = listOf(ServiceSchema("2", "my-service")),
+            databases = listOf(DbSchema("3", "my-db", "MongoDB", "NoSQL")),
+            linksDbService = listOf(LinkDbServiceSchema("3", "2", "static-collector-db"))
         )
-        `when`(repo.findOneByNameIn("foo")).thenReturn(system)
+        `when`(repo.findOneByNameIn("foo")).thenReturn(systemSchema)
         val systemMongoDbRepo = SystemMongoDbRepo(repo)
         val domainSystem = systemMongoDbRepo.findByName("foo")!!
         assertEquals("1", domainSystem.id)
@@ -40,14 +40,14 @@ class SystemMongoDbRepoTest {
         domainSystem.addService(service)
         domainSystem.addDatabase(database)
         domainSystem.bindDatabaseToService(database, service, "static-collector-db")
-        val mongoDbSystem = System(
+        val mongoDbSystemSchema = SystemSchema(
             id = "1",
             name = "foo",
-            services = listOf(AppService("2", "my-service")),
-            databases = listOf(AppDb("3", "my-db", "MongoDB", "NoSQL")),
-            linksDbService = listOf(AppLinkDbService("3", "2", "static-collector-db"))
+            services = listOf(ServiceSchema("2", "my-service")),
+            databases = listOf(DbSchema("3", "my-db", "MongoDB", "NoSQL")),
+            linksDbService = listOf(LinkDbServiceSchema("3", "2", "static-collector-db"))
         )
-        `when`(repo.save(mongoDbSystem)).thenReturn(mongoDbSystem)
+        `when`(repo.save(mongoDbSystemSchema)).thenReturn(mongoDbSystemSchema)
         assertDoesNotThrow { SystemMongoDbRepo(repo).save(domainSystem) }
     }
 }

@@ -1,10 +1,10 @@
-package com.erickrodrigues.staticcollector.application.http.responses
+package com.erickrodrigues.staticcollector.application.dto
 
 import com.erickrodrigues.staticcollector.domain.entities.Database
 import com.erickrodrigues.staticcollector.domain.entities.Service
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 
-class RegisterSystemResponse(system: ServiceBasedSystem) {
+class SystemDto(system: ServiceBasedSystem) {
     val id: String
     val name: String
     val services: List<Service>

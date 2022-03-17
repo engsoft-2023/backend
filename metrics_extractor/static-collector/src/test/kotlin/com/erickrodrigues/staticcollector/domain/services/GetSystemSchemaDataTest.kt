@@ -1,4 +1,4 @@
-package com.erickrodrigues.staticcollector.domain.usecases
+package com.erickrodrigues.staticcollector.domain.services
 
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
 import com.erickrodrigues.staticcollector.domain.exceptions.EntityNotFoundException
@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 
-class GetSystemDataUseCaseTest {
+class GetSystemSchemaDataTest {
     private val repo by lazy { mock(ServiceBasedSystemRepository::class.java) }
-    private val getSystem by lazy { GetSystemDataUseCase(repo) }
+    private val getSystem by lazy { GetSystemData(repo) }
 
     @Test
     fun `should return the service based system`() {

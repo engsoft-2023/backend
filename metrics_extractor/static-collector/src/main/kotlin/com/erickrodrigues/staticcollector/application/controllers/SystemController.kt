@@ -1,14 +1,14 @@
 package com.erickrodrigues.staticcollector.application.controllers
 
 import com.erickrodrigues.staticcollector.application.factories.GetSystemUseCaseFactory
-import com.erickrodrigues.staticcollector.application.http.requests.RegisterSystemRequest
-import com.erickrodrigues.staticcollector.application.http.responses.RegisterSystemResponse
+import com.erickrodrigues.staticcollector.application.dto.RegisterSystemDto
+import com.erickrodrigues.staticcollector.application.dto.SystemDto
 import com.erickrodrigues.staticcollector.domain.exceptions.EntityAlreadyExistsException
 import com.erickrodrigues.staticcollector.domain.exceptions.EntityNotFoundException
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToFetchDataException
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToParseDataException
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
-import com.erickrodrigues.staticcollector.domain.usecases.ExtractDataUseCase
+import com.erickrodrigues.staticcollector.domain.services.ExtractData
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.MultiValueMapAdapter
@@ -26,17 +26,17 @@ class SystemController(
         try {
             val getSystemUseCase = getSystemUseCaseFactory.create()
             val system = getSystemUseCase.run(id)
-            ResponseEntity(RegisterSystemResponse(system), HttpStatus.OK)
+            ResponseEntity(SystemDto(system), HttpStatus.OK)
         } catch (e: Exception) {
             handleExceptions(e)
         }
 
     @PostMapping
-    fun registerSystem(@RequestBody request: RegisterSystemRequest) =
+    fun registerSystem(@RequestBody request: RegisterSystemDto) =
         try {
-            val extractDataUseCase = ExtractDataUseCase(extractionFactory)
-            val system = extractDataUseCase.run(request.repoUrl)
-            ResponseEntity(RegisterSystemResponse(system), HttpStatus.CREATED)
+            val extractData = ExtractData(extractionFactory)
+            val system = extractData.run(request.repoUrl)
+            ResponseEntity(SystemDto(system), HttpStatus.CREATED)
         } catch (e: Exception) {
             handleExceptions(e)
         }

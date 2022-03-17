@@ -1,7 +1,7 @@
 package com.erickrodrigues.staticcollector.application.factories
 
-import com.erickrodrigues.staticcollector.application.http.HttpAdapter
-import com.erickrodrigues.staticcollector.application.yaml.DockerComposeParser
+import com.erickrodrigues.staticcollector.application.adapters.HttpAdapter
+import com.erickrodrigues.staticcollector.application.adapters.DockerComposeParserAdapter
 import com.erickrodrigues.staticcollector.domain.converters.DockerComposeToDomain
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.erickrodrigues.staticcollector.domain.fetchers.DockerComposeFetcher
@@ -21,7 +21,7 @@ class DockerComposeExtractionComponentsFactory : ExtractionComponentsAbstractFac
 
     override fun createDataFetcher() = DockerComposeFetcher(HttpAdapter())
 
-    override fun createDataParser() = DockerComposeParser()
+    override fun createDataParser() = DockerComposeParserAdapter()
 
     override fun createConverterToDomain() = DockerComposeToDomain()
 

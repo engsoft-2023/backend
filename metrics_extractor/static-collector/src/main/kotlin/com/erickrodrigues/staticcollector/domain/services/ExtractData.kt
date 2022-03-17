@@ -1,4 +1,4 @@
-package com.erickrodrigues.staticcollector.domain.usecases
+package com.erickrodrigues.staticcollector.domain.services
 
 import com.erickrodrigues.staticcollector.domain.converters.ConverterToDomain
 import com.erickrodrigues.staticcollector.domain.entities.ServiceBasedSystem
@@ -9,13 +9,13 @@ import com.erickrodrigues.staticcollector.domain.events.NewUsage
 import com.erickrodrigues.staticcollector.domain.exceptions.EntityAlreadyExistsException
 import com.erickrodrigues.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.erickrodrigues.staticcollector.domain.fetchers.DataFetcher
-import com.erickrodrigues.staticcollector.domain.parsers.DataParser
+import com.erickrodrigues.staticcollector.domain.ports.DataParserPort
 import com.erickrodrigues.staticcollector.domain.ports.MessageBroker
 import com.erickrodrigues.staticcollector.domain.ports.ServiceBasedSystemRepository
 
-class ExtractDataUseCase(factory: ExtractionComponentsAbstractFactory) {
+class ExtractData(factory: ExtractionComponentsAbstractFactory) {
     private val fetcher: DataFetcher
-    private val parser: DataParser
+    private val parser: DataParserPort
     private val converter: ConverterToDomain
     private val repository: ServiceBasedSystemRepository
     private val messageBroker: MessageBroker

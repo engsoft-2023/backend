@@ -1,14 +1,14 @@
-package com.erickrodrigues.staticcollector.application.yaml
+package com.erickrodrigues.staticcollector.application.adapters
 
 import com.erickrodrigues.staticcollector.domain.dockercompose.DockerCompose
 import com.erickrodrigues.staticcollector.domain.entities.SpecificTechnology
 import com.erickrodrigues.staticcollector.domain.exceptions.UnableToParseDataException
-import com.erickrodrigues.staticcollector.domain.fetchers.FetchResponse
-import com.erickrodrigues.staticcollector.domain.parsers.DataParser
+import com.erickrodrigues.staticcollector.domain.vo.FetchResponse
+import com.erickrodrigues.staticcollector.domain.ports.DataParserPort
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.Constructor
 
-class DockerComposeParser : DataParser {
+class DockerComposeParserAdapter : DataParserPort {
     override fun run(response: FetchResponse): SpecificTechnology {
         try {
             val yaml = Yaml(Constructor(DockerCompose::class.java))

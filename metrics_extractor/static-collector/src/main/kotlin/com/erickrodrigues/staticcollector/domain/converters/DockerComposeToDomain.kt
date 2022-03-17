@@ -1,6 +1,5 @@
 package com.erickrodrigues.staticcollector.domain.converters
 
-import com.erickrodrigues.staticcollector.domain.dockercompose.ContainerDecider
 import com.erickrodrigues.staticcollector.domain.dockercompose.DockerCompose
 import com.erickrodrigues.staticcollector.domain.dockercompose.DockerContainer
 import com.erickrodrigues.staticcollector.domain.entities.Database
@@ -16,8 +15,8 @@ class DockerComposeToDomain : ConverterToDomain {
         try {
             val dockerCompose = specificTechnology as DockerCompose
             val system = ServiceBasedSystem(dockerCompose.name)
-            val mapServices = dockerCompose.services!!.filter { ContainerDecider.isService(it.value) }
-            val mapDatabases = dockerCompose.services!!.filter { ContainerDecider.isDatabase(it.value) }
+            val mapServices = dockerCompose.services!!.filter { it.value.isService() }
+            val mapDatabases = dockerCompose.services!!.filter { it.value.isDatabase() }
             createDatabases(mapDatabases, system)
             createServices(mapServices, system)
 
@@ -37,10 +36,21 @@ class DockerComposeToDomain : ConverterToDomain {
 
     private fun createDatabases(mapDatabases: Map<String, DockerContainer>, system: ServiceBasedSystem) =
         mapDatabases.forEach { (name, dbContainer) ->
-            val dbModelAndMake = ContainerDecider.getDatabaseMakeAndModel(dbContainer.image!!) ?: return@forEach
+            val dbModelAndMake = getDatabaseMakeAndModel(dbContainer.image!!) ?: return@forEach
             val (make, model) = dbModelAndMake
             val database = Database(name, make, model)
             system.addDatabase(database)
             containerToDatabase[name] = database
         }
+
+    private fun getDatabaseMakeAndModel(image: String): Pair<String, String>? {
+        val databaseImagesToMakeAndModel = listOf(
+            "mongo" to ("MongoDB" to "NoSQL"),
+            "postgres" to ("PostgreSQL" to "Relational"),
+            "mysql" to ("MySQL" to "Relational"),
+            "mariadb" to ("MariaDB" to "Relational"),
+            "neo4j" to ("Neo4J" to "Graph-Oriented")
+        )
+        return databaseImagesToMakeAndModel.find { image.contains(it.first, true) }?.second
+    }
 }
