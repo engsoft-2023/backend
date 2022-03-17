@@ -1,5 +1,6 @@
 package com.erickrodrigues.staticcollector.application.controllers
 
+import com.erickrodrigues.staticcollector.application.factories.GetSystemUseCaseFactory
 import com.erickrodrigues.staticcollector.application.http.requests.RegisterSystemRequest
 import com.erickrodrigues.staticcollector.application.http.responses.RegisterSystemResponse
 import com.erickrodrigues.staticcollector.domain.converters.ConverterToDomain
@@ -48,7 +49,7 @@ class SystemControllerTest {
                 val converter = mock(ConverterToDomain::class.java)
                 val repo = mock(ServiceBasedSystemRepository::class.java)
                 val broker = mock(MessageBroker::class.java)
-                val controller = SystemController(factory)
+                val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
                 val request = RegisterSystemRequest("https://foo.com/bar")
 
                 `when`(fetcher.run(anyString())).thenReturn(res)
@@ -112,7 +113,7 @@ class SystemControllerTest {
 
                 @BeforeEach
                 fun init() {
-                    val controller = SystemController(factory)
+                    val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
                     val request = RegisterSystemRequest("https://foo.com/bar")
 
                     `when`(fetcher.run(anyString())).thenAnswer { throw UnableToFetchDataException("") }
@@ -133,7 +134,7 @@ class SystemControllerTest {
 
                 @BeforeEach
                 fun init() {
-                    val controller = SystemController(factory)
+                    val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
                     val request = RegisterSystemRequest("https://foo.com/bar")
                     val fetchResponse = FetchResponse("foo", "bar")
 
@@ -156,7 +157,7 @@ class SystemControllerTest {
 
                 @BeforeEach
                 fun init() {
-                    val controller = SystemController(factory)
+                    val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
                     val request = RegisterSystemRequest("https://foo.com/bar")
                     val fetchResponse = FetchResponse("foo", "bar")
                     val specificTechnology = mock(SpecificTechnology::class.java)
