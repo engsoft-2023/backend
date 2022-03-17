@@ -1,4 +1,4 @@
-package com.erickrodrigues.staticcollector.domain.http
+package com.erickrodrigues.staticcollector.domain.ports
 
 import com.erickrodrigues.staticcollector.domain.vo.ResponseHttp
 

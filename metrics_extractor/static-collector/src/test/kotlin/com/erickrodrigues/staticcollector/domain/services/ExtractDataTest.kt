@@ -42,7 +42,7 @@ class ExtractDataTest {
         val fetcher = mock(DataFetcher::class.java)
         val parser = mock(DataParserPort::class.java)
         val converter = mock(ConverterToDomain::class.java)
-        `when`(fetcher.run(anyString())).thenReturn(response)
+        `when`(fetcher.run(anyString(), anyString())).thenReturn(response)
         `when`(parser.run(response)).thenReturn(specificTechnology)
         `when`(converter.run(specificTechnology)).thenReturn(system)
         `when`(factory.createDataFetcher()).thenReturn(fetcher)
@@ -56,20 +56,22 @@ class ExtractDataTest {
     @Test
     fun `call extract use case for a system which name already exists will throw an exception`() {
         `when`(repo.findByName(anyString())).thenReturn(ServiceBasedSystem("Sorting Hat"))
-        assertThrows(EntityAlreadyExistsException::class.java) { extractData.run("https://github.com") }
+        assertThrows(EntityAlreadyExistsException::class.java) {
+            extractData.run("https://github.com", "docker-compose.yaml")
+        }
     }
 
     @Test
     fun `it works properly for a system which name doesn't exist`() {
         `when`(repo.findByName(anyString())).thenReturn(null)
-        extractData.run("https://github.com")
+        extractData.run("https://github.com", "docker-compose.yaml")
         verify(repo, times(1)).save(any())
     }
 
     @Test
     fun `it sends the collected data to the message queue`() {
         `when`(repo.findByName(anyString())).thenReturn(null)
-        extractData.run("https://github.com")
+        extractData.run("https://github.com", "docker-compose.yaml")
         verify(broker, times(1)).newSystem(any())
         verify(broker, times(1)).newService(any())
         verify(broker, times(1)).newDatabase(any())

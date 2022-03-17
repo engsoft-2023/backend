@@ -28,8 +28,8 @@ class ExtractData(factory: ExtractionComponentsAbstractFactory) {
         messageBroker = factory.createMessageBroker()
     }
 
-    fun run(url: String): ServiceBasedSystem {
-        val response = fetcher.run(url)
+    fun run(url: String, filename: String): ServiceBasedSystem {
+        val response = fetcher.run(url, filename)
         val specificTechnology = parser.run(response)
         val system = converter.run(specificTechnology)
         persistData(system)

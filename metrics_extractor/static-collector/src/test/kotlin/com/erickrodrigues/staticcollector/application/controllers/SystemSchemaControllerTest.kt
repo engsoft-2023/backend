@@ -50,9 +50,9 @@ class SystemSchemaControllerTest {
                 val repo = mock(ServiceBasedSystemRepository::class.java)
                 val broker = mock(MessageBroker::class.java)
                 val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                val request = RegisterSystemDto("https://foo.com/bar")
+                val request = RegisterSystemDto("https://foo.com/bar", "prod-compose.yml")
 
-                `when`(fetcher.run(anyString())).thenReturn(res)
+                `when`(fetcher.run(anyString(), anyString())).thenReturn(res)
                 `when`(parser.run(res)).thenReturn(specificTechnology)
                 `when`(converter.run(specificTechnology)).thenReturn(system)
                 `when`(factory.createDataFetcher()).thenReturn(fetcher)
@@ -60,7 +60,7 @@ class SystemSchemaControllerTest {
                 `when`(factory.createConverterToDomain()).thenReturn(converter)
                 `when`(factory.createServiceBasedSystemRepository()).thenReturn(repo)
                 `when`(factory.createMessageBroker()).thenReturn(broker)
-                `when`(extractData.run(anyString())).thenReturn(system)
+                `when`(extractData.run(anyString(), anyString())).thenReturn(system)
 
                 response = controller.registerSystem(request)
             }
@@ -114,9 +114,9 @@ class SystemSchemaControllerTest {
                 @BeforeEach
                 fun init() {
                     val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                    val request = RegisterSystemDto("https://foo.com/bar")
+                    val request = RegisterSystemDto("https://foo.com/bar", "docker-compose.yml")
 
-                    `when`(fetcher.run(anyString())).thenAnswer { throw UnableToFetchDataException("") }
+                    `when`(fetcher.run(anyString(), anyString())).thenAnswer { throw UnableToFetchDataException("") }
 
                     response = controller.registerSystem(request)
                 }
@@ -135,10 +135,10 @@ class SystemSchemaControllerTest {
                 @BeforeEach
                 fun init() {
                     val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                    val request = RegisterSystemDto("https://foo.com/bar")
+                    val request = RegisterSystemDto("https://foo.com/bar", "docker-compose.yml")
                     val fetchResponse = FetchResponse("foo", "bar")
 
-                    `when`(fetcher.run(anyString())).thenReturn(fetchResponse)
+                    `when`(fetcher.run(anyString(), anyString())).thenReturn(fetchResponse)
                     `when`(parser.run(fetchResponse)).thenAnswer { throw UnableToParseDataException("") }
 
                     response = controller.registerSystem(request)
@@ -158,11 +158,11 @@ class SystemSchemaControllerTest {
                 @BeforeEach
                 fun init() {
                     val controller = SystemController(factory, GetSystemUseCaseFactory(repo))
-                    val request = RegisterSystemDto("https://foo.com/bar")
+                    val request = RegisterSystemDto("https://foo.com/bar", "dev-compose.yml")
                     val fetchResponse = FetchResponse("foo", "bar")
                     val specificTechnology = mock(SpecificTechnology::class.java)
 
-                    `when`(fetcher.run(anyString())).thenReturn(fetchResponse)
+                    `when`(fetcher.run(anyString(), anyString())).thenReturn(fetchResponse)
                     `when`(parser.run(fetchResponse)).thenReturn(specificTechnology)
                     `when`(converter.run(specificTechnology)).thenReturn(ServiceBasedSystem("bar"))
                     `when`(repo.findByName(anyString())).thenReturn(ServiceBasedSystem("bar"))

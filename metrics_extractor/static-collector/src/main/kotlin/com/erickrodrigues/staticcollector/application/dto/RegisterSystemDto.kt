@@ -1,3 +1,3 @@
 package com.erickrodrigues.staticcollector.application.dto
 
-data class RegisterSystemDto(val repoUrl: String)
+data class RegisterSystemDto(val repoUrl: String, val filename: String)

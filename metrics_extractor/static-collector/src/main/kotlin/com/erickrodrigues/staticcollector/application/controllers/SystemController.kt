@@ -35,7 +35,7 @@ class SystemController(
     fun registerSystem(@RequestBody request: RegisterSystemDto) =
         try {
             val extractData = ExtractData(extractionFactory)
-            val system = extractData.run(request.repoUrl)
+            val system = extractData.run(request.repoUrl, request.filename)
             ResponseEntity(SystemDto(system), HttpStatus.CREATED)
         } catch (e: Exception) {
             handleExceptions(e)
