@@ -8,7 +8,7 @@
         <version>2.6.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.erickrodrigues</groupId>
+    <groupId>com.thesortinghat</groupId>
     <artifactId>static-collector</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>static-collector</name>
