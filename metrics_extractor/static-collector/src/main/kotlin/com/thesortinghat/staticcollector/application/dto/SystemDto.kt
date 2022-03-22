@@ -9,17 +9,17 @@ class SystemDto(system: ServiceBasedSystem) {
     val name: String
     val services: List<Service>
     val databases: List<Database>
-    val linksServicesDbs: List<ServiceDbLink>
+    val databasesUsages: List<DbUsage>
 
     init {
         id = system.id
         name = system.name
         services = system.services()
         databases = system.databases()
-        linksServicesDbs = system.linksDatabasesServices().map {
-                ServiceDbLink(it.db.id, it.service.id, it.payload)
+        databasesUsages = system.databasesUsages().map {
+                DbUsage(it.db.id, it.service.id, it.payload)
         }
     }
 
-    class ServiceDbLink(val dbId: String, val serviceId: String, val payload: Any?)
+    class DbUsage(val dbId: String, val serviceId: String, val payload: Any?)
 }

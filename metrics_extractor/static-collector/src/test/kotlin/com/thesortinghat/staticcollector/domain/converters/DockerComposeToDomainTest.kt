@@ -31,7 +31,7 @@ class DockerComposeToDomainTest {
         val system = converter.run(dockerCompose)
         val databases = system.databases()
         val services = system.services()
-        val dbServiceLinks = system.linksDatabasesServices()
+        val dbServiceLinks = system.databasesUsages()
 
         assertEquals(1, databases.size)
         assertEquals("db", databases[0].name)

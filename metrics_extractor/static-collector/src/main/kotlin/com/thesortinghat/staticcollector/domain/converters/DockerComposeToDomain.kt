@@ -31,7 +31,7 @@ class DockerComposeToDomain : ConverterToDomain {
             val service = Service(name)
             val dependsOn = serviceContainer.depends_on
             system.addService(service)
-            dependsOn?.forEach { system.bindDatabaseToService(containerToDatabase[it]!!, service) }
+            dependsOn?.forEach { system.addDatabaseUsage(containerToDatabase[it]!!, service) }
         }
 
     private fun createDatabases(mapDatabases: Map<String, DockerContainer>, system: ServiceBasedSystem) =

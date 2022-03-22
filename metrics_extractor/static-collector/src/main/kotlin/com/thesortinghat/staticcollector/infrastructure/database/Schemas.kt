@@ -1,7 +1,7 @@
 package com.thesortinghat.staticcollector.infrastructure.database
 
 import com.thesortinghat.staticcollector.domain.entities.Database
-import com.thesortinghat.staticcollector.domain.entities.DbServiceEdge
+import com.thesortinghat.staticcollector.domain.entities.DatabaseUsage
 import com.thesortinghat.staticcollector.domain.entities.Service
 import com.thesortinghat.staticcollector.domain.entities.ServiceBasedSystem
 import org.springframework.data.annotation.Id
@@ -39,14 +39,14 @@ data class DbSchema(
     }
 }
 
-data class LinkDbServiceSchema(
+data class DatabaseUsageSchema(
     val dbId: String,
     val serviceId: String,
     val payload: Any?
 ) {
     companion object {
-        fun createFromDomain(link: DbServiceEdge) =
-            LinkDbServiceSchema(
+        fun createFromDomain(link: DatabaseUsage) =
+            DatabaseUsageSchema(
                 dbId = link.db.id,
                 serviceId = link.service.id,
                 payload = link.payload
@@ -61,7 +61,7 @@ data class SystemSchema(
     val name: String,
     val services: List<ServiceSchema>,
     val databases: List<DbSchema>,
-    val linksDbService: List<LinkDbServiceSchema>
+    val databasesUsages: List<DatabaseUsageSchema>
 ) {
     companion object {
         fun createFromDomain(s: ServiceBasedSystem) =
@@ -70,7 +70,7 @@ data class SystemSchema(
                 name = s.name,
                 services = s.services().map { ServiceSchema.createFromDomain(it) },
                 databases = s.databases().map { DbSchema.createFromDomain(it) },
-                linksDbService = s.linksDatabasesServices().map { LinkDbServiceSchema.createFromDomain(it) }
+                databasesUsages = s.databasesUsages().map { DatabaseUsageSchema.createFromDomain(it) }
             )
     }
 }

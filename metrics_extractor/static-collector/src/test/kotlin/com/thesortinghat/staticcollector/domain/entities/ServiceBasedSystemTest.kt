@@ -3,7 +3,7 @@ package com.thesortinghat.staticcollector.domain.entities
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class ServiceBasedSystemSchemaTest {
+class ServiceBasedSystemTest {
 
     @Test
     fun `add service to system`() {
@@ -30,10 +30,10 @@ class ServiceBasedSystemSchemaTest {
         val database = Database("payment-database", "MongoDB", "NoSQL")
         val system = ServiceBasedSystem("my-system")
 
-        system.bindDatabaseToService(database, serviceA)
-        system.bindDatabaseToService(database, serviceB)
+        system.addDatabaseUsage(database, serviceA)
+        system.addDatabaseUsage(database, serviceB)
 
-        val links = system.linksDatabasesServices()
+        val links = system.databasesUsages()
         val (sA, sB) = links.map { it.service }
         val matchServices = (sA.id == serviceA.id && sB.id == serviceB.id) ||
                 (sB.id == serviceA.id && sA.id == serviceB.id)

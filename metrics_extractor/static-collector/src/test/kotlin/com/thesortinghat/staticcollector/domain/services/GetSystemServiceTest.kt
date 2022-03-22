@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 
-class GetSystemSchemaDataTest {
+class GetSystemServiceTest {
     private val repo by lazy { mock(ServiceBasedSystemRepository::class.java) }
-    private val getSystem by lazy { GetSystemData(repo) }
+    private val getSystem by lazy { GetSystemService(repo) }
 
     @Test
     fun `should return the service based system`() {

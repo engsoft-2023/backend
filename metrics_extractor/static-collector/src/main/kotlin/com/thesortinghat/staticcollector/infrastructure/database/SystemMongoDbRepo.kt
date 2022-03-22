@@ -29,8 +29,8 @@ class SystemMongoDbRepo(private val repo: SpringDataMongoSystemRepository) : Ser
         val domainSystem = ServiceBasedSystem(s.id, s.name)
         val mapServices = s.services.associate { it.id to Service(it.id, it.name) }
         val mapDbs = s.databases.associate { it.id to Database(it.id, it.name, it.make, it.model) }
-        s.linksDbService.forEach {
-            domainSystem.bindDatabaseToService(mapDbs[it.dbId]!!, mapServices[it.serviceId]!!, it.payload)
+        s.databasesUsages.forEach {
+            domainSystem.addDatabaseUsage(mapDbs[it.dbId]!!, mapServices[it.serviceId]!!, it.payload)
         }
 
         return domainSystem

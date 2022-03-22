@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
-class SystemSchemaMongoDbRepoTest {
+class SystemMongoDbRepoTest {
     private val repo = mock(SpringDataMongoSystemRepository::class.java)
 
     @Test
@@ -18,7 +18,7 @@ class SystemSchemaMongoDbRepoTest {
             name = "foo",
             services = listOf(ServiceSchema("2", "my-service")),
             databases = listOf(DbSchema("3", "my-db", "MongoDB", "NoSQL")),
-            linksDbService = listOf(LinkDbServiceSchema("3", "2", "static-collector-db"))
+            databasesUsages = listOf(DatabaseUsageSchema("3", "2", "static-collector-db"))
         )
         `when`(repo.findOneByNameIn("foo")).thenReturn(systemSchema)
         val systemMongoDbRepo = SystemMongoDbRepo(repo)
@@ -27,9 +27,9 @@ class SystemSchemaMongoDbRepoTest {
         assertEquals("foo", domainSystem.name)
         assertEquals(1, domainSystem.services().size)
         assertEquals(1, domainSystem.databases().size)
-        assertEquals(1, domainSystem.linksDatabasesServices().size)
-        assertEquals("2", domainSystem.linksDatabasesServices()[0].service.id)
-        assertEquals("3", domainSystem.linksDatabasesServices()[0].db.id)
+        assertEquals(1, domainSystem.databasesUsages().size)
+        assertEquals("2", domainSystem.databasesUsages()[0].service.id)
+        assertEquals("3", domainSystem.databasesUsages()[0].db.id)
     }
 
     @Test
@@ -39,13 +39,13 @@ class SystemSchemaMongoDbRepoTest {
         val domainSystem = ServiceBasedSystem("1", "foo")
         domainSystem.addService(service)
         domainSystem.addDatabase(database)
-        domainSystem.bindDatabaseToService(database, service, "static-collector-db")
+        domainSystem.addDatabaseUsage(database, service, "static-collector-db")
         val mongoDbSystemSchema = SystemSchema(
             id = "1",
             name = "foo",
             services = listOf(ServiceSchema("2", "my-service")),
             databases = listOf(DbSchema("3", "my-db", "MongoDB", "NoSQL")),
-            linksDbService = listOf(LinkDbServiceSchema("3", "2", "static-collector-db"))
+            databasesUsages = listOf(DatabaseUsageSchema("3", "2", "static-collector-db"))
         )
         `when`(repo.save(mongoDbSystemSchema)).thenReturn(mongoDbSystemSchema)
         assertDoesNotThrow { SystemMongoDbRepo(repo).save(domainSystem) }

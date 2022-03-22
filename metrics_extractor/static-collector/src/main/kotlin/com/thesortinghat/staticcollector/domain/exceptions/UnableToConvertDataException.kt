@@ -1,3 +1,3 @@
 package com.thesortinghat.staticcollector.domain.exceptions
 
-class UnableToConvertDataException(msg: String) : Exception(msg)
+class UnableToConvertDataException(msg: String) : RuntimeException(msg)

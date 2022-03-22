@@ -13,7 +13,7 @@ import com.thesortinghat.staticcollector.domain.ports.DataParserPort
 import com.thesortinghat.staticcollector.domain.ports.MessageBroker
 import com.thesortinghat.staticcollector.domain.ports.ServiceBasedSystemRepository
 
-class ExtractData(factory: ExtractionComponentsAbstractFactory) {
+class ExtractDataService(factory: ExtractionComponentsAbstractFactory) {
     private val fetcher: DataFetcher
     private val parser: DataParserPort
     private val converter: ConverterToDomain
@@ -50,6 +50,6 @@ class ExtractData(factory: ExtractionComponentsAbstractFactory) {
         messageBroker.newSystem(NewSystem(system.id, system.name))
         system.services().forEach { messageBroker.newService(NewService(it.id, it.name, system.id)) }
         system.databases().forEach { messageBroker.newDatabase(NewDatabase(it.id, it.make)) }
-        system.linksDatabasesServices().forEach { messageBroker.newUsage(NewUsage(it.service.id, it.db.id)) }
+        system.databasesUsages().forEach { messageBroker.newUsage(NewUsage(it.service.id, it.db.id)) }
     }
 }

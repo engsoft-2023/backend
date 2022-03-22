@@ -19,9 +19,9 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.*
 import org.mockito.kotlin.any
 
-class ExtractDataTest {
+class ExtractDataServiceTest {
 
-    private lateinit var extractData: ExtractData
+    private lateinit var extractDataService: ExtractDataService
     private val repo by lazy { mock(ServiceBasedSystemRepository::class.java) }
     private val broker by lazy { mock(MessageBroker::class.java) }
     private val system by lazy {
@@ -30,7 +30,7 @@ class ExtractDataTest {
         val system = ServiceBasedSystem("3", "Sorting Hat")
         system.addService(service)
         system.addDatabase(db)
-        system.bindDatabaseToService(db, service)
+        system.addDatabaseUsage(db, service)
         system
     }
 
@@ -50,28 +50,28 @@ class ExtractDataTest {
         `when`(factory.createConverterToDomain()).thenReturn(converter)
         `when`(factory.createServiceBasedSystemRepository()).thenReturn(repo)
         `when`(factory.createMessageBroker()).thenReturn(broker)
-        extractData = ExtractData(factory)
+        extractDataService = ExtractDataService(factory)
     }
 
     @Test
     fun `call extract use case for a system which name already exists will throw an exception`() {
         `when`(repo.findByName(anyString())).thenReturn(ServiceBasedSystem("Sorting Hat"))
         assertThrows(EntityAlreadyExistsException::class.java) {
-            extractData.run("https://github.com", "docker-compose.yaml")
+            extractDataService.run("https://github.com", "docker-compose.yaml")
         }
     }
 
     @Test
     fun `it works properly for a system which name doesn't exist`() {
         `when`(repo.findByName(anyString())).thenReturn(null)
-        extractData.run("https://github.com", "docker-compose.yaml")
+        extractDataService.run("https://github.com", "docker-compose.yaml")
         verify(repo, times(1)).save(any())
     }
 
     @Test
     fun `it sends the collected data to the message queue`() {
         `when`(repo.findByName(anyString())).thenReturn(null)
-        extractData.run("https://github.com", "docker-compose.yaml")
+        extractDataService.run("https://github.com", "docker-compose.yaml")
         verify(broker, times(1)).newSystem(any())
         verify(broker, times(1)).newService(any())
         verify(broker, times(1)).newDatabase(any())

@@ -21,11 +21,11 @@ class ServiceBasedSystem {
 
     fun addDatabase(db: Database) = graph.addVertex(db)
 
-    fun bindDatabaseToService(db: Database, s: Service, payload: Any? = null) = graph.addEdge(DbServiceEdge(db, s, payload))
+    fun addDatabaseUsage(db: Database, s: Service, payload: Any? = null) = graph.addEdge(DatabaseUsage(db, s, payload))
 
     fun services() = graph.vertices().filterIsInstance<Service>()
 
     fun databases() = graph.vertices().filterIsInstance<Database>()
 
-    fun linksDatabasesServices() = graph.edges().filterIsInstance<DbServiceEdge>()
+    fun databasesUsages() = graph.edges().filterIsInstance<DatabaseUsage>()
 }
