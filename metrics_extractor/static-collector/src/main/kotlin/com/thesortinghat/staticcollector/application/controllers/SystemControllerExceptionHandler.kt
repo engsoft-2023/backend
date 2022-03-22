@@ -14,17 +14,17 @@ class SystemControllerExceptionHandler {
 
     @ExceptionHandler(value = [UnableToFetchDataException::class])
     fun exception(e: UnableToFetchDataException) =
-            ResponseEntity<Any>(e.message, HttpStatus.NOT_FOUND)
+            ResponseEntity<Any>(mapOf("error" to e.message), HttpStatus.NOT_FOUND)
 
     @ExceptionHandler(value = [UnableToParseDataException::class])
     fun exception(e: UnableToParseDataException) =
-            ResponseEntity<Any>(e.message, HttpStatus.BAD_REQUEST)
+            ResponseEntity<Any>(mapOf("error" to e.message), HttpStatus.BAD_REQUEST)
 
     @ExceptionHandler(value = [EntityAlreadyExistsException::class])
     fun exception(e: EntityAlreadyExistsException) =
-            ResponseEntity<Any>(e.message, HttpStatus.CONFLICT)
+            ResponseEntity<Any>(mapOf("error" to e.message), HttpStatus.CONFLICT)
 
     @ExceptionHandler(value = [EntityNotFoundException::class])
     fun exception(e: EntityNotFoundException) =
-            ResponseEntity<Any>(e.message, HttpStatus.NOT_FOUND)
+            ResponseEntity<Any>(mapOf("error" to e.message), HttpStatus.NOT_FOUND)
 }
