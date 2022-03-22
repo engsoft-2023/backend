@@ -21,7 +21,7 @@ docker-compose up
 
 - To run the automated tests, execute the following command:
 ```shell
-docker-compose run --rm app ./mvnw test
+docker-compose run --rm app ./gradlew test
 ```
 
 ## Technologies

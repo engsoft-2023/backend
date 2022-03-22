@@ -1,13 +1,13 @@
-FROM openjdk:11.0-jdk
+FROM adoptopenjdk/openjdk11:alpine AS build
 
-ENV PORT=8080
+WORKDIR /home/app
 
-WORKDIR /usr/src/app
+COPY build.gradle.kts settings.gradle.kts gradlew gradlew.bat ./
+COPY gradle gradle/
+COPY src src/
 
-COPY . .
+RUN ./gradlew bootJar
 
-RUN ./mvnw clean install -Dmaven.test.skip
+RUN mv build/libs/*.jar app.jar
 
-EXPOSE ${PORT}
-
-CMD ./mvnw spring-boot:run
+CMD ["java", "-jar", "app.jar"]
