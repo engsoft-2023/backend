@@ -1,7 +1,7 @@
 package com.thesortinghat.staticcollector.application.controllers
 
-import com.thesortinghat.staticcollector.domain.exceptions.EntityAlreadyExistsException
-import com.thesortinghat.staticcollector.domain.exceptions.EntityNotFoundException
+import com.thesortinghat.staticcollector.application.exceptions.EntityAlreadyExistsException
+import com.thesortinghat.staticcollector.application.exceptions.EntityNotFoundException
 import com.thesortinghat.staticcollector.domain.exceptions.UnableToFetchDataException
 import com.thesortinghat.staticcollector.domain.exceptions.UnableToParseDataException
 import org.springframework.http.HttpStatus

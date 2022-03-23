@@ -1,8 +1,8 @@
 package com.thesortinghat.staticcollector.application.dto
 
-import com.thesortinghat.staticcollector.domain.entities.Database
-import com.thesortinghat.staticcollector.domain.entities.Service
-import com.thesortinghat.staticcollector.domain.entities.ServiceBasedSystem
+import com.thesortinghat.staticcollector.domain.model.Database
+import com.thesortinghat.staticcollector.domain.model.Service
+import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
 
 class SystemDto(system: ServiceBasedSystem) {
     val id: String

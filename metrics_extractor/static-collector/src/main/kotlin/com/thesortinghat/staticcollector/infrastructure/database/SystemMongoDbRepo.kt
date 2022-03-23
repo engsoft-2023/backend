@@ -1,9 +1,9 @@
 package com.thesortinghat.staticcollector.infrastructure.database
 
-import com.thesortinghat.staticcollector.domain.entities.Database
-import com.thesortinghat.staticcollector.domain.entities.Service
-import com.thesortinghat.staticcollector.domain.entities.ServiceBasedSystem
-import com.thesortinghat.staticcollector.domain.ports.ServiceBasedSystemRepository
+import com.thesortinghat.staticcollector.domain.model.Database
+import com.thesortinghat.staticcollector.domain.model.Service
+import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
+import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystemRepository
 import org.springframework.stereotype.Component
 
 @Component
@@ -15,7 +15,7 @@ class SystemMongoDbRepo(private val repo: SpringDataMongoSystemRepository) : Ser
     }
 
     override fun findByName(name: String): ServiceBasedSystem? {
-        val s = repo.findOneByNameIn(name)
+        val s = repo.findOneByName(name)
         return convertMongoObjectToDomain(s)
     }
 

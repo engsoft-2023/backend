@@ -1,9 +1,7 @@
 package com.thesortinghat.staticcollector.application.config
 
 import com.thesortinghat.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
-import com.thesortinghat.staticcollector.domain.ports.ServiceBasedSystemRepository
-import com.thesortinghat.staticcollector.domain.services.ExtractDataService
-import com.thesortinghat.staticcollector.domain.services.GetSystemService
+import com.thesortinghat.staticcollector.domain.services.ExtractData
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -11,8 +9,5 @@ import org.springframework.context.annotation.Configuration
 class StaticCollectorConfiguration {
 
     @Bean
-    fun extractDataService(extractFactory: ExtractionComponentsAbstractFactory) = ExtractDataService(extractFactory)
-
-    @Bean
-    fun getSystemService(repo: ServiceBasedSystemRepository) = GetSystemService(repo)
+    fun extractDataService(factory: ExtractionComponentsAbstractFactory) = ExtractData(factory)
 }

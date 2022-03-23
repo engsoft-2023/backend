@@ -1,8 +1,8 @@
 package com.thesortinghat.staticcollector.infrastructure.database
 
-import com.thesortinghat.staticcollector.domain.entities.Database
-import com.thesortinghat.staticcollector.domain.entities.Service
-import com.thesortinghat.staticcollector.domain.entities.ServiceBasedSystem
+import com.thesortinghat.staticcollector.domain.model.Database
+import com.thesortinghat.staticcollector.domain.model.Service
+import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -20,7 +20,7 @@ class SystemMongoDbRepoTest {
             databases = listOf(DbSchema("3", "my-db", "MongoDB", "NoSQL")),
             databasesUsages = listOf(DatabaseUsageSchema("3", "2", "static-collector-db"))
         )
-        `when`(repo.findOneByNameIn("foo")).thenReturn(systemSchema)
+        `when`(repo.findOneByName("foo")).thenReturn(systemSchema)
         val systemMongoDbRepo = SystemMongoDbRepo(repo)
         val domainSystem = systemMongoDbRepo.findByName("foo")!!
         assertEquals("1", domainSystem.id)

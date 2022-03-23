@@ -1,15 +1,11 @@
 package com.thesortinghat.staticcollector.domain.factories
 
-import com.thesortinghat.staticcollector.domain.converters.ConverterToDomain
-import com.thesortinghat.staticcollector.domain.fetchers.DataFetcher
-import com.thesortinghat.staticcollector.domain.ports.DataParserPort
-import com.thesortinghat.staticcollector.domain.ports.MessageBroker
-import com.thesortinghat.staticcollector.domain.ports.ServiceBasedSystemRepository
+import com.thesortinghat.staticcollector.domain.services.ConverterToModel
+import com.thesortinghat.staticcollector.domain.services.DataFetcher
+import com.thesortinghat.staticcollector.domain.services.DataParser
 
 interface ExtractionComponentsAbstractFactory {
     fun createDataFetcher(): DataFetcher
-    fun createDataParser(): DataParserPort
-    fun createConverterToDomain(): ConverterToDomain
-    fun createServiceBasedSystemRepository(): ServiceBasedSystemRepository
-    fun createMessageBroker(): MessageBroker
+    fun createDataParser(): DataParser
+    fun createConverterToDomain(): ConverterToModel
 }

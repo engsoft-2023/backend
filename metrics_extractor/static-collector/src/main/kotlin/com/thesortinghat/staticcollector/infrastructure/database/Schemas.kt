@@ -1,9 +1,9 @@
 package com.thesortinghat.staticcollector.infrastructure.database
 
-import com.thesortinghat.staticcollector.domain.entities.Database
-import com.thesortinghat.staticcollector.domain.entities.DatabaseUsage
-import com.thesortinghat.staticcollector.domain.entities.Service
-import com.thesortinghat.staticcollector.domain.entities.ServiceBasedSystem
+import com.thesortinghat.staticcollector.domain.model.Database
+import com.thesortinghat.staticcollector.domain.model.DatabaseUsage
+import com.thesortinghat.staticcollector.domain.model.Service
+import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 

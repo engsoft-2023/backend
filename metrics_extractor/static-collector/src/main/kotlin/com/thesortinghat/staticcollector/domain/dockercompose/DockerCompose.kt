@@ -1,6 +1,6 @@
 package com.thesortinghat.staticcollector.domain.dockercompose
 
-import com.thesortinghat.staticcollector.domain.entities.SpecificTechnology
+import com.thesortinghat.staticcollector.domain.model.SpecificTechnology
 
 data class DockerCompose(
     var name: String = "",

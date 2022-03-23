@@ -1,31 +1,21 @@
 package com.thesortinghat.staticcollector.application.factories
 
-import com.thesortinghat.staticcollector.application.adapters.HttpAdapter
-import com.thesortinghat.staticcollector.application.adapters.DockerComposeParserAdapter
-import com.thesortinghat.staticcollector.domain.converters.DockerComposeToDomain
+import com.thesortinghat.staticcollector.application.services.ParseDockerCompose
+import com.thesortinghat.staticcollector.domain.dockercompose.DockerComposeToModel
 import com.thesortinghat.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
-import com.thesortinghat.staticcollector.domain.fetchers.DockerComposeFetcher
-import com.thesortinghat.staticcollector.domain.ports.MessageBroker
-import com.thesortinghat.staticcollector.domain.ports.ServiceBasedSystemRepository
+import com.thesortinghat.staticcollector.application.services.FetchDockerCompose
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class DockerComposeExtractionComponentsFactory : ExtractionComponentsAbstractFactory {
+class DockerComposeExtractionComponentsFactory(
+        @Autowired private val fetcher: FetchDockerCompose,
+        @Autowired private val parser: ParseDockerCompose,
+): ExtractionComponentsAbstractFactory {
 
-    @Autowired
-    private lateinit var mongoDbRepo: ServiceBasedSystemRepository
+    override fun createDataFetcher() = fetcher
 
-    @Autowired
-    private lateinit var messageQueue: MessageBroker
+    override fun createDataParser() = parser
 
-    override fun createDataFetcher() = DockerComposeFetcher(HttpAdapter())
-
-    override fun createDataParser() = DockerComposeParserAdapter()
-
-    override fun createConverterToDomain() = DockerComposeToDomain()
-
-    override fun createServiceBasedSystemRepository() = mongoDbRepo
-
-    override fun createMessageBroker() = messageQueue
+    override fun createConverterToDomain() = DockerComposeToModel()
 }
