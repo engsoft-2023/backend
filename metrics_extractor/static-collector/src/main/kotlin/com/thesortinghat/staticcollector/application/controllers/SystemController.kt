@@ -1,9 +1,9 @@
 package com.thesortinghat.staticcollector.application.controllers
 
 import com.thesortinghat.staticcollector.application.dto.RegisterSystemDto
-import com.thesortinghat.staticcollector.application.dto.SystemDto
 import com.thesortinghat.staticcollector.application.services.GetSystem
 import com.thesortinghat.staticcollector.application.services.RegisterNewSystem
+import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,14 +17,13 @@ class SystemController(
 ) {
 
     @GetMapping("/{id}")
-    fun getSystem(@PathVariable id: String): ResponseEntity<SystemDto> {
-        val system = getSystem.execute(id)
-        return ResponseEntity(SystemDto(system), HttpStatus.OK)
+    fun getSystem(@PathVariable id: String): ResponseEntity<ServiceBasedSystem> {
+        return ResponseEntity(getSystem.execute(id), HttpStatus.OK)
     }
 
     @PostMapping
-    fun registerSystem(@RequestBody request: RegisterSystemDto): ResponseEntity<SystemDto> {
+    fun registerSystem(@RequestBody request: RegisterSystemDto): ResponseEntity<ServiceBasedSystem> {
         val system = registerNewSystem.execute(request.repoUrl, request.filename)
-        return ResponseEntity(SystemDto(system), HttpStatus.CREATED)
+        return ResponseEntity(system, HttpStatus.CREATED)
     }
 }

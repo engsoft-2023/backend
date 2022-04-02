@@ -13,7 +13,7 @@ class DockerComposeToModel : ConverterToModel {
     override fun execute(specificTechnology: SpecificTechnology): ServiceBasedSystem {
         try {
             val dockerCompose = specificTechnology as DockerCompose
-            val system = ServiceBasedSystem(dockerCompose.name)
+            val system = ServiceBasedSystem.create(dockerCompose.name)
             val mapServices = dockerCompose.services!!.filter { it.value.isService() }
             val mapDatabases = dockerCompose.services!!.filter { it.value.isDatabase() }
             createDatabases(mapDatabases, system)

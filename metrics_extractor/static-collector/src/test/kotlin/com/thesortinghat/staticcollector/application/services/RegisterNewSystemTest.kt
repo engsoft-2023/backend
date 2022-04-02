@@ -19,9 +19,9 @@ class RegisterNewSystemTest {
     private val extractData by lazy { mock(ExtractData::class.java) }
     private val registerNewSystem by lazy { RegisterNewSystem(extractData, repository, messageQueue) }
     private val system by lazy {
-        val service = Service("1", "foo")
-        val db = Database("2", "bar", "baz", "baz")
-        val system = ServiceBasedSystem("3", "Sorting Hat")
+        val service = Service("foo")
+        val db = Database("bar", "baz", "baz")
+        val system = ServiceBasedSystem.create("Sorting Hat")
         system.addService(service)
         system.addDatabase(db)
         system.addDatabaseUsage(db, service)

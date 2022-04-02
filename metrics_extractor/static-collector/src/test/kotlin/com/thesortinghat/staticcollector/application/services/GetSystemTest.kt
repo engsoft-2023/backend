@@ -21,9 +21,9 @@ class GetSystemTest {
 
     @Test
     fun `should return the service based system`() {
-        val system = ServiceBasedSystem("my-system")
-        `when`(repo.findById(system.id)).thenReturn(system)
-        assertEquals(system.id, getSystem.execute(system.id).id)
+        val system = ServiceBasedSystem.create("my-system")
+        `when`(repo.findById(system.id.toString())).thenReturn(system)
+        assertEquals(system.id, getSystem.execute(system.id.toString()).id)
     }
 
     @Test

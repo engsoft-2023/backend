@@ -35,9 +35,9 @@ class RegisterNewSystem(
     }
 
     private fun sendDataToMessageQueue(system: ServiceBasedSystem) {
-        messageQueue.newSystem(NewSystem(system.id, system.name))
-        system.services().forEach { messageQueue.newService(NewService(it.id, it.name, system.id)) }
-        system.databases().forEach { messageQueue.newDatabase(NewDatabase(it.id, it.make)) }
-        system.databasesUsages().forEach { messageQueue.newUsage(NewUsage(it.service.id, it.db.id)) }
+        messageQueue.newSystem(NewSystem(system.id.toString(), system.name))
+        system.services().forEach { messageQueue.newService(NewService(it.id.toString(), it.name, system.id.toString())) }
+        system.databases().forEach { messageQueue.newDatabase(NewDatabase(it.id.toString(), it.make)) }
+        system.databasesUsages().forEach { messageQueue.newUsage(NewUsage(it.serviceId.toString(), it.dbId.toString())) }
     }
 }

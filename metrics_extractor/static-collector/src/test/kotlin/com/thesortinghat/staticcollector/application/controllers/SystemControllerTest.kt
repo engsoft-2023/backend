@@ -2,7 +2,6 @@ package com.thesortinghat.staticcollector.application.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.thesortinghat.staticcollector.application.dto.RegisterSystemDto
-import com.thesortinghat.staticcollector.application.dto.SystemDto
 import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
 import com.thesortinghat.staticcollector.application.exceptions.EntityAlreadyExistsException
 import com.thesortinghat.staticcollector.application.exceptions.EntityNotFoundException
@@ -44,7 +43,7 @@ class SystemControllerTest {
 
         @Test
         fun `should create a system successfully`() {
-            val system = ServiceBasedSystem("my-system")
+            val system = ServiceBasedSystem.create("my-system")
 
             `when`(registerNewSystem.execute(request.repoUrl, request.filename))
                     .thenReturn(system)
@@ -54,9 +53,8 @@ class SystemControllerTest {
                     .content(ObjectMapper().writeValueAsString(request))
             )
 
-            val body = SystemDto(system)
             response.andExpect(status().isCreated)
-            response.andExpect(content().json(ObjectMapper().writeValueAsString(body)))
+            response.andExpect(content().json(ObjectMapper().writeValueAsString(system)))
         }
 
         @Test
@@ -99,9 +97,9 @@ class SystemControllerTest {
 
         @Test
         fun `should return the correct system`() {
-            val system = ServiceBasedSystem("my-system")
+            val system = ServiceBasedSystem.create("my-system")
 
-            `when`(getSystem.execute(system.id)).thenReturn(system)
+            `when`(getSystem.execute(system.id.toString())).thenReturn(system)
 
             mockMvc.perform(get("/systems/{id}", system.id))
                     .andExpect(status().isOk)

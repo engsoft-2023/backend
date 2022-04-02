@@ -1,46 +1,59 @@
 package com.thesortinghat.staticcollector.domain.model
 
-import org.junit.jupiter.api.Assertions.*
+import com.thesortinghat.staticcollector.domain.exceptions.DuplicateSystemComponentException
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class ServiceBasedSystemTest {
 
     @Test
-    fun `add service to system`() {
+    fun `throws an exception when creating a system with blank name`() {
+        assertThrows<IllegalArgumentException> { ServiceBasedSystem.create("   ") }
+    }
+
+    @Test
+    fun `throws an exception when adding services with same name`() {
+        val system = ServiceBasedSystem.create("amazon")
+        system.addService(Service("payment-service"))
+        assertThrows<DuplicateSystemComponentException> { system.addService(Service("payment-service")) }
+    }
+
+    @Test
+    fun `throws an exception when adding services with same id`() {
         val service = Service("payment-service")
-        val system = ServiceBasedSystem("my-system")
+        val system = ServiceBasedSystem.create("amazon")
         system.addService(service)
-        assertEquals(1, system.services().size)
-        assertEquals(service.id, system.services()[0].id)
+        assertThrows<DuplicateSystemComponentException> {
+            system.addService(Service(service.id, "account-service"))
+        }
     }
 
     @Test
-    fun `add database to system`() {
-        val database = Database("payment-database", "MongoDB", "NoSQL")
-        val system = ServiceBasedSystem("my-system")
+    fun `throws an exception when adding databases with same name`() {
+        val database = Database("account-db", "MySQL", "SQL")
+        val system = ServiceBasedSystem.create("amazon")
         system.addDatabase(database)
-        assertEquals(1, system.databases().size)
-        assertEquals(database.id, system.databases()[0].id)
+        assertThrows<DuplicateSystemComponentException> {
+            system.addDatabase(Database("account-db", "MongoDB", "NoSQL"))
+        }
     }
 
     @Test
-    fun `bind database to service`() {
-        val serviceA = Service("payment-service")
-        val serviceB = Service("users-service")
-        val database = Database("payment-database", "MongoDB", "NoSQL")
-        val system = ServiceBasedSystem("my-system")
+    fun `throws an exception when adding databases with same id`() {
+        val database = Database("account-db", "MySQL", "SQL")
+        val system = ServiceBasedSystem.create("amazon")
+        system.addDatabase(database)
+        assertThrows<DuplicateSystemComponentException> {
+            system.addDatabase(Database(database.id,"payment-db", "MongoDB", "NoSQL"))
+        }
+    }
 
-        system.addDatabaseUsage(database, serviceA)
-        system.addDatabaseUsage(database, serviceB)
-
-        val links = system.databasesUsages()
-        val (sA, sB) = links.map { it.service }
-        val matchServices = (sA.id == serviceA.id && sB.id == serviceB.id) ||
-                (sB.id == serviceA.id && sA.id == serviceB.id)
-
-        assertEquals(2, links.size)
-        assertEquals(database.id, links[0].db.id)
-        assertEquals(database.id, links[1].db.id)
-        assertTrue(matchServices)
+    @Test
+    fun `throws an exception when adding the same database usage`() {
+        val system = ServiceBasedSystem.create("amazon")
+        val database = Database("payment-db", "MongoDB", "NoSQL")
+        val service = Service("payment-service")
+        system.addDatabaseUsage(database, service)
+        assertThrows<DuplicateSystemComponentException> { system.addDatabaseUsage(database, service) }
     }
 }

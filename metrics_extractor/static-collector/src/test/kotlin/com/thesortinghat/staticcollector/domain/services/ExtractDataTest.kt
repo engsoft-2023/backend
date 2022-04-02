@@ -1,7 +1,6 @@
 package com.thesortinghat.staticcollector.domain.services
 
 import com.thesortinghat.staticcollector.domain.dockercompose.DockerCompose
-import com.thesortinghat.staticcollector.domain.exceptions.UnableToFetchDataException
 import com.thesortinghat.staticcollector.domain.model.ServiceBasedSystem
 import com.thesortinghat.staticcollector.domain.factories.ExtractionComponentsAbstractFactory
 import com.thesortinghat.staticcollector.domain.vo.FetchResponse
@@ -30,7 +29,7 @@ class ExtractDataTest {
 
     private val extractData by lazy { ExtractData(factory) }
 
-    private val system by lazy { ServiceBasedSystem("1", "Sorting Hat") }
+    private val system by lazy { ServiceBasedSystem.create("Sorting Hat") }
 
     @BeforeEach
     fun init() {
