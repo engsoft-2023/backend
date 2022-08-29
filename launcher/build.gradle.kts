@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "2.7.0" apply false
+    id("org.springframework.boot") version "2.7.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
@@ -16,9 +16,10 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":persistence"))
+    implementation(project(":metrics_extractor"))
+    implementation(project(":data_collector"))
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.security:spring-security-test")
 }
