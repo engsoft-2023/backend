@@ -1,4 +1,4 @@
-package com.sortinghat.backend.metrics_extractor.dto
+package com.sortinghat.backend.server
 
 import com.sortinghat.backend.domain.model.*
 

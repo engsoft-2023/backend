@@ -3,6 +3,7 @@ package com.sortinghat.backend.persistence
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.sortinghat.backend.domain.model.*
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import java.net.URI
 import java.net.http.HttpClient
@@ -11,7 +12,7 @@ import java.net.http.HttpResponse
 import javax.annotation.PostConstruct
 
 @org.springframework.stereotype.Service
-class FetchDataFromSpreadsheets(private val repo: ServiceRepository) {
+class FetchDataFromSpreadsheets(@Autowired private val repo: ServiceRepository) {
 
     @Value("\${google.spreadsheets.api_key}")
     private val apiKey: String = ""

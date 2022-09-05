@@ -1,4 +1,4 @@
-package com.sortinghat.backend.launcher
+package com.sortinghat.backend.server
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

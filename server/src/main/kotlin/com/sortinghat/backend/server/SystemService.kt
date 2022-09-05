@@ -1,11 +1,10 @@
-package com.sortinghat.backend.metrics_extractor.services
+package com.sortinghat.backend.server
 
 import com.sortinghat.backend.domain.model.Service
 import com.sortinghat.backend.domain.model.ServiceBasedSystem
-import com.sortinghat.backend.metrics_extractor.vo.Extractions
 
-interface GetSystemData {
+interface SystemService {
     fun findAllServicesBySystem(id: String): Set<Service>
+
     fun findAllSystems(): Set<ServiceBasedSystem>
-    fun getMetricsBySystem(id: String): Extractions
 }

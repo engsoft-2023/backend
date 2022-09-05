@@ -18,9 +18,8 @@ dependencyManagement {
 dependencies {
 	implementation(project(":domain"))
 	implementation(project(":persistence"))
-	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.yaml:snakeyaml:1.30")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.springframework.boot:spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }

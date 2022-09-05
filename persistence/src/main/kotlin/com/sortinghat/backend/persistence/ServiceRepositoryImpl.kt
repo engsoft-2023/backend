@@ -4,10 +4,11 @@ import com.sortinghat.backend.domain.model.Database
 import com.sortinghat.backend.domain.model.Service
 import com.sortinghat.backend.domain.model.ServiceBasedSystem
 import com.sortinghat.backend.domain.model.ServiceRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class ServiceRepositoryImpl(private val repo: MongoServiceRepository) : ServiceRepository {
+class ServiceRepositoryImpl(@Autowired private val repo: MongoServiceRepository) : ServiceRepository {
 
     override fun findAllBySystem(id: String): Set<Service> {
         return servicesSchemaToDomain(repo.findAllBySystemName(id))

@@ -1,25 +1,26 @@
-package com.sortinghat.backend.data_collector.services
+package com.sortinghat.backend.server
 
-import com.sortinghat.backend.data_collector.exceptions.EntityNotFoundException
+import com.sortinghat.backend.domain.exceptions.EntityNotFoundException
 import com.sortinghat.backend.domain.model.Module
 import com.sortinghat.backend.domain.model.Service
 import com.sortinghat.backend.domain.model.ServiceBasedSystem
 import com.sortinghat.backend.domain.model.ServiceRepository
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
-class GetSystemTest {
+class SystemServiceImplTest {
 
     @Mock
     private lateinit var repo: ServiceRepository
 
-    private val getSystem by lazy { GetSystem(repo) }
+    private val systemService by lazy { SystemServiceImpl(repo) }
 
     @Test
     fun `should return the service based system`() {
@@ -28,16 +29,15 @@ class GetSystemTest {
 
         `when`(repo.findAllBySystem(system.name)).thenReturn(setOf(service))
 
-        val systemDto = getSystem.execute(system.name)
+        val services = systemService.findAllServicesBySystem(system.name)
 
-        assertEquals(1, systemDto.services.size)
-        assertEquals(1, systemDto.modules.size)
-        assertEquals(service.name, systemDto.services.first().name)
+        assertEquals(1, services.size)
+        assertEquals(service.name, services.first().name)
     }
 
     @Test
     fun `should throw an exception when system does not exist`() {
         `when`(repo.findAllBySystem(anyString())).thenReturn(setOf())
-        assertThrows<EntityNotFoundException> { getSystem.execute("1") }
+        assertThrows<EntityNotFoundException> { systemService.findAllServicesBySystem("1") }
     }
 }

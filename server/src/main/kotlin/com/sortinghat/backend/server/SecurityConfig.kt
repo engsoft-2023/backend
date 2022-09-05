@@ -1,4 +1,4 @@
-package com.sortinghat.backend.launcher
+package com.sortinghat.backend.server
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
