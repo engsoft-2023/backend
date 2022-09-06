@@ -2,7 +2,7 @@ package com.sortinghat.backend.data_collector.services
 
 import com.sortinghat.backend.data_collector.domain.DockerCompose
 import com.sortinghat.backend.data_collector.exceptions.EntityAlreadyExistsException
-import com.sortinghat.backend.data_collector.factories.ExtractionComponentsAbstractFactory
+import com.sortinghat.backend.data_collector.factories.CollectionComponentsFactory
 import com.sortinghat.backend.data_collector.utils.FetchResponse
 import com.sortinghat.backend.domain.model.*
 import org.junit.jupiter.api.Assertions
@@ -25,10 +25,10 @@ class RegisterNewSystemImplTest {
     private lateinit var parser: DataParser
 
     @Mock
-    private lateinit var converter: ConverterToModel
+    private lateinit var converter: ConverterToDomain
 
     @Mock
-    private lateinit var factory: ExtractionComponentsAbstractFactory
+    private lateinit var factory: CollectionComponentsFactory
 
     private val repository by lazy { mock(ServiceRepository::class.java) }
     private val registerNewSystem by lazy { RegisterNewSystemImpl(factory, repository) }

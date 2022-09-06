@@ -28,7 +28,7 @@ class DockerComposeToModelTest {
 
     @Test
     fun `it returns a valid system for a given docker compose`() {
-        val converter = DockerComposeToModel()
+        val converter = DockerComposeToDomain()
         val services = converter.execute(dockerCompose)
         val databases = services.fold(setOf<Database>()) { dbs, service -> dbs.plus(service.databasesUsages) }
 
@@ -41,6 +41,6 @@ class DockerComposeToModelTest {
     @Test
     fun `it throws an error when converting fails`() {
         val specificTechnology = mock(SpecificTechnology::class.java)
-        assertThrows<UnableToConvertDataException> { DockerComposeToModel().execute(specificTechnology) }
+        assertThrows<UnableToConvertDataException> { DockerComposeToDomain().execute(specificTechnology) }
     }
 }

@@ -6,7 +6,8 @@ import com.sortinghat.backend.data_collector.domain.SpecificTechnology
 import com.sortinghat.backend.data_collector.exceptions.UnableToConvertDataException
 import com.sortinghat.backend.domain.model.*
 
-class DockerComposeToModel : ConverterToModel {
+@org.springframework.stereotype.Service
+class DockerComposeToDomain : ConverterToDomain {
     private val containerToDatabase by lazy { hashMapOf<String, Database>() }
 
     override fun execute(specificTechnology: SpecificTechnology): Set<Service> {

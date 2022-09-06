@@ -1,7 +1,7 @@
 package com.sortinghat.backend.data_collector.services
 
 import com.sortinghat.backend.data_collector.exceptions.EntityAlreadyExistsException
-import com.sortinghat.backend.data_collector.factories.ExtractionComponentsAbstractFactory
+import com.sortinghat.backend.data_collector.factories.CollectionComponentsFactory
 import com.sortinghat.backend.domain.model.Service
 import com.sortinghat.backend.domain.model.ServiceBasedSystem
 import com.sortinghat.backend.domain.model.ServiceRepository
@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @org.springframework.stereotype.Service
 class RegisterNewSystemImpl(
-    @Autowired factory: ExtractionComponentsAbstractFactory,
+    @Autowired factory: CollectionComponentsFactory,
     @Autowired private val repository: ServiceRepository
 ) : RegisterNewSystem {
     private val fetcher: DataFetcher
     private val parser: DataParser
-    private val converter: ConverterToModel
+    private val converter: ConverterToDomain
 
     init {
         fetcher = factory.createDataFetcher()
