@@ -8,5 +8,14 @@ services:
     volumes:
       - dbdata:/data/db
 
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
 volumes:
   dbdata:

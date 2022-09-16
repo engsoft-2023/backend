@@ -2,6 +2,31 @@
 
 The Sorting Hat's backend is responsible for collecting service-based system data and extracting CharM metrics.
 
+## How to run
+
+Step 1) Create a `.env` file based on the `.env.sample` in this repository.
+Make sure you set the `DB_HOST` value correctly
+(`localhost` or `db`, depending on how you will run the application -- see step 3).
+
+Step 2) Run the following command to start the database:
+```shell
+docker-compose up db
+```
+
+Step 3) You can run the application on your local machine (if you have JDK installed) or on docker.
+
+On a local machine:
+```shell
+./gradlew bootRun
+```
+
+On docker:
+```shell
+docker-compose build     # to build the app image
+docker-compose up app    # to run db and app containers
+```
+
+
 ## Technologies
 
 - Kotlin language

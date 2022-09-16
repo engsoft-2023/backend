@@ -31,6 +31,12 @@ class FetchDataFromSpreadsheets(@Autowired private val repo: ServiceRepository) 
         if (isDatabaseNotEmpty()) return
 
         println("fetching systems collected manually from spreadsheets...")
+
+        if (apiKey.isEmpty() || sheetId.isEmpty()) {
+            println("error: could not fetch from spreadsheets: apiKey and sheetId not set")
+            return
+        }
+
         val sheetNameToValues = mutableMapOf<String, List<List<String>>>(
             "system" to listOf(),
             "module" to listOf(),
