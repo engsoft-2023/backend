@@ -17,7 +17,9 @@ Step 3) You can run the application on your local machine (if you have JDK insta
 
 On a local machine:
 ```shell
-./gradlew bootRun
+./gradlew clean build
+./gradlew :server:shadowJar
+java -jar server/build/libs/server-0.0.1-SNAPSHOT-all.jar
 ```
 
 On docker:
