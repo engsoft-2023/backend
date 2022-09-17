@@ -25,7 +25,7 @@ class RegisterNewSystemImplTest {
     private lateinit var parser: DataParser
 
     @Mock
-    private lateinit var converter: ConverterToDomain
+    private lateinit var converter: ConverterToDomain<Service>
 
     @Mock
     private lateinit var factory: CollectionComponentsFactory
@@ -46,7 +46,7 @@ class RegisterNewSystemImplTest {
     fun init() {
         `when`(factory.createDataFetcher()).thenReturn(fetcher)
         `when`(factory.createDataParser()).thenReturn(parser)
-        `when`(factory.createConverterToDomain()).thenReturn(converter)
+        `when`(factory.createConverterToDomain<Service>()).thenReturn(converter)
         `when`(fetcher.execute("https://github.com/erickrodrigs/codepix", "docker-compose.yml"))
             .thenReturn(FetchResponse("erickrodrigs/codepix", "some data"))
         `when`(parser.execute(FetchResponse("erickrodrigs/codepix", "some data")))

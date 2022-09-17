@@ -1,11 +1,10 @@
 package com.sortinghat.backend.data_collector.services
 
 import com.sortinghat.backend.data_collector.domain.SpecificTechnology
-import com.sortinghat.backend.data_collector.exceptions.UnableToParseDataException
-import com.sortinghat.backend.domain.model.Service
+import com.sortinghat.backend.data_collector.exceptions.UnableToConvertDataException
 
-interface ConverterToDomain {
+interface ConverterToDomain<T> {
 
-    @Throws(UnableToParseDataException::class)
-    fun execute(specificTechnology: SpecificTechnology): Set<Service>
+    @Throws(UnableToConvertDataException::class)
+    fun execute(specificTechnology: SpecificTechnology): Set<T>
 }

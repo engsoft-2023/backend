@@ -1,5 +1,6 @@
 package com.sortinghat.backend.data_collector.factories
 
+import com.sortinghat.backend.data_collector.services.ConverterToDomain
 import com.sortinghat.backend.data_collector.services.DockerComposeToDomain
 import com.sortinghat.backend.data_collector.services.FetchDockerCompose
 import com.sortinghat.backend.data_collector.services.ParseDockerCompose
@@ -17,5 +18,6 @@ class DockerComposeCollectionComponentsFactory(
 
     override fun createDataParser() = parser
 
-    override fun createConverterToDomain() = converter
+    @Suppress("UNCHECKED_CAST")
+    override fun <Service> createConverterToDomain() = converter as ConverterToDomain<Service>
 }

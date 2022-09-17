@@ -14,7 +14,7 @@ class RegisterNewSystemImpl(
 ) : RegisterNewSystem {
     private val fetcher: DataFetcher
     private val parser: DataParser
-    private val converter: ConverterToDomain
+    private val converter: ConverterToDomain<Service>
 
     init {
         fetcher = factory.createDataFetcher()

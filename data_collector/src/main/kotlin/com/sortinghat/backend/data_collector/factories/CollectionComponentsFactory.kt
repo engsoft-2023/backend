@@ -7,5 +7,5 @@ import com.sortinghat.backend.data_collector.services.DataParser
 interface CollectionComponentsFactory {
     fun createDataFetcher(): DataFetcher
     fun createDataParser(): DataParser
-    fun createConverterToDomain(): ConverterToDomain
+    fun <T> createConverterToDomain(): ConverterToDomain<T>
 }
