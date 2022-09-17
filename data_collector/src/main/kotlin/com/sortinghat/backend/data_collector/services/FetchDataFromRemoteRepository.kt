@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class FetchDockerCompose(@Autowired private val httpAbstraction: HttpAbstraction<String>) : DataFetcher {
+class FetchDataFromRemoteRepository(@Autowired private val httpAbstraction: HttpAbstraction<String>) : DataFetcher {
 
     override fun execute(url: String, filename: String): FetchResponse {
         val info = getRemoteRepoInfo(url, filename)
