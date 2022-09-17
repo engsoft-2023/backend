@@ -90,7 +90,7 @@ class ParseDockerComposeTest {
     inner class ParsingFails {
 
         @Test
-        fun `should throw an exception`() {
+        fun `should throw an exception when docker-compose does not have services`() {
             val dockerComposeString = """
                 foo: bar
             """.trimIndent()
