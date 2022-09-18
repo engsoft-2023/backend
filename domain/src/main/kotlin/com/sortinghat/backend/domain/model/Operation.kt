@@ -13,7 +13,7 @@ data class Operation(val verb: HttpVerb, val uri: String) : Visitable {
         fun fromString(url: String): Operation {
             try {
                 val (rawVerb, uri) = url.trim().split("/", limit = 2).map { it.trim() }
-                val httpVerb = HttpVerb.values().find { it.toString() == rawVerb }
+                val httpVerb = HttpVerb.values().find { it.toString().lowercase() == rawVerb.lowercase() }
                     ?: throw IllegalArgumentException("http verb must be valid")
                 return Operation(httpVerb, "/$uri")
             } catch (ex: Exception) {
