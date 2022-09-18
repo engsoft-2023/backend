@@ -1,9 +1,12 @@
 package com.sortinghat.backend.persistence
 
 import com.sortinghat.backend.domain.model.*
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
+@Document
 data class ServiceSchema(
-    val name: String,
+    @Id val name: String,
     val responsibility: String,
     val module: Module,
     val system: ServiceBasedSystem,
