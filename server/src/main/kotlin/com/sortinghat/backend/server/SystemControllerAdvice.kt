@@ -1,6 +1,7 @@
 package com.sortinghat.backend.server
 
 import com.sortinghat.backend.data_collector.exceptions.EntityAlreadyExistsException
+import com.sortinghat.backend.data_collector.exceptions.UnableToConvertDataException
 import com.sortinghat.backend.data_collector.exceptions.UnableToFetchDataException
 import com.sortinghat.backend.data_collector.exceptions.UnableToParseDataException
 import com.sortinghat.backend.domain.exceptions.EntityNotFoundException
@@ -18,6 +19,10 @@ class SystemControllerAdvice {
 
     @ExceptionHandler(value = [UnableToParseDataException::class])
     fun exception(e: UnableToParseDataException) =
+        ResponseEntity<Any>(mapOf("error" to e.message), HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(value = [UnableToConvertDataException::class])
+    fun exception(e: UnableToConvertDataException) =
         ResponseEntity<Any>(mapOf("error" to e.message), HttpStatus.BAD_REQUEST)
 
     @ExceptionHandler(value = [EntityAlreadyExistsException::class])

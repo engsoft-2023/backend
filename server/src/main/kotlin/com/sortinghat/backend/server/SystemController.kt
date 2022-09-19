@@ -1,6 +1,8 @@
 package com.sortinghat.backend.server
 
+import com.sortinghat.backend.data_collector.payloads.ServicesEndpointsRegistrationPayload
 import com.sortinghat.backend.data_collector.services.RegisterNewSystem
+import com.sortinghat.backend.data_collector.services.RegisterServicesEndpoints
 import com.sortinghat.backend.metrics_extractor.services.ExtractSystemMetrics
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/systems")
 class SystemController(
     @Autowired private val registerNewSystem: RegisterNewSystem,
+    @Autowired private val registerServicesEndpoints: RegisterServicesEndpoints,
     @Autowired private val extractSystemMetrics: ExtractSystemMetrics,
     @Autowired private val systemService: SystemService
 ) {
@@ -29,4 +32,10 @@ class SystemController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun registerSystem(@RequestBody request: RegisterSystemDto) = SystemDto.createFromServices(registerNewSystem.execute(request.repoUrl, request.filename))
+
+    @PutMapping("/{name}/endpoints")
+    @ResponseStatus(HttpStatus.OK)
+    fun registerServicesEndpoints(@PathVariable name: String, @RequestBody payload: ServicesEndpointsRegistrationPayload) {
+        registerServicesEndpoints.execute(name, payload)
+    }
 }

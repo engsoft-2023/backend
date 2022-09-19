@@ -5,6 +5,7 @@ import com.sortinghat.backend.data_collector.exceptions.EntityAlreadyExistsExcep
 import com.sortinghat.backend.data_collector.exceptions.UnableToFetchDataException
 import com.sortinghat.backend.data_collector.exceptions.UnableToParseDataException
 import com.sortinghat.backend.data_collector.services.RegisterNewSystem
+import com.sortinghat.backend.data_collector.services.RegisterServicesEndpoints
 import com.sortinghat.backend.domain.exceptions.EntityNotFoundException
 import com.sortinghat.backend.domain.model.Module
 import com.sortinghat.backend.domain.model.Service
@@ -32,6 +33,9 @@ class SystemControllerTest {
     private lateinit var registerNewSystem: RegisterNewSystem
 
     @MockBean
+    private lateinit var registerServicesEndpoints: RegisterServicesEndpoints
+
+    @MockBean
     private lateinit var extractSystemMetrics: ExtractSystemMetrics
 
     @MockBean
@@ -41,7 +45,7 @@ class SystemControllerTest {
         MockMvcBuilders
             .standaloneSetup(
                 SystemController(
-                    registerNewSystem, extractSystemMetrics, systemService
+                    registerNewSystem, registerServicesEndpoints, extractSystemMetrics, systemService
                 )
             )
             .setControllerAdvice(SystemControllerAdvice())
