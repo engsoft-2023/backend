@@ -1,0 +1,25 @@
+{
+  "repoUrl": "https://github.com/the-sortinghat/collector-artifacts-examples",
+  "servicesAndOpenApiFilenames": [
+    {
+      "serviceName": "user-service",
+      "openApiFilename": "user-service-openapi.yaml"
+    },
+    {
+      "serviceName": "order-service",
+      "openApiFilename": "order-service-openapi.yaml"
+    },
+    {
+      "serviceName": "payment-service",
+      "openApiFilename": "payment-service-openapi.yaml"
+    },
+    {
+      "serviceName": "catalog-service",
+      "openApiFilename": "catalog-service-openapi.yaml"
+    },
+    {
+      "serviceName": "search-service",
+      "openApiFilename": "search-service-openapi.yaml"
+    }
+  ]
+}
