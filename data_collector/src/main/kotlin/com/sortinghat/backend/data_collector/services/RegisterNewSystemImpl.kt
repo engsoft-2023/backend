@@ -6,10 +6,11 @@ import com.sortinghat.backend.domain.model.Service
 import com.sortinghat.backend.domain.model.ServiceBasedSystem
 import com.sortinghat.backend.domain.model.ServiceRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 
 @org.springframework.stereotype.Service
 class RegisterNewSystemImpl(
-    @Autowired factory: CollectionComponentsFactory,
+    @Autowired @Qualifier("dockerCompose") factory: CollectionComponentsFactory,
     @Autowired private val repository: ServiceRepository
 ) : RegisterNewSystem {
     private val fetcher: DataFetcher
