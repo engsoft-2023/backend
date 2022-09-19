@@ -22,6 +22,7 @@ dependencies {
     implementation(project(":metrics_extractor"))
     implementation(project(":data_collector"))
     implementation(project(":domain"))
+    implementation(project(":persistence"))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-security")

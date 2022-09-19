@@ -17,7 +17,6 @@ dependencyManagement {
 
 dependencies {
 	implementation(project(":domain"))
-	implementation(project(":persistence"))
 	implementation("org.yaml:snakeyaml:1.30")
 	implementation("org.springframework.boot:spring-boot-starter")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
