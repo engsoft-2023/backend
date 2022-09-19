@@ -1,6 +1,0 @@
-package com.sortinghat.backend.data_collector
-
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-
-@EnableAutoConfiguration
-class DataCollectorConfig

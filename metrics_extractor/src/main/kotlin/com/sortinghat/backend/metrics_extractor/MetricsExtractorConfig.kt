@@ -1,6 +1,0 @@
-package com.sortinghat.backend.metrics_extractor
-
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-
-@EnableAutoConfiguration
-class MetricsExtractorConfig
