@@ -51,12 +51,30 @@ The endpoints are as follows:
 - `GET /systems/{name}/metrics`: to extract and get the CharM metrics of a specific system with name `name`.
   - Example: `GET /systems/TrainTicket/metrics`.
 - `POST /systems`: to collect system data from a remote repository.
+- `PUT /systems/{name}/endpoints`: to register services endpoints.
 
 Example of a request body for `POST /systems`:
 ```json
 {
   "repoUrl": "https://github.com/codelab-alexia/buscar-hackathon",
   "filename": "docker-compose.yaml"
+}
+```
+
+Example of a request body for `PUT /systems/fictional-system/endpoints`:
+```json
+{
+  "repoUrl": "https://github.com/myorg/fictional-system",
+  "servicesAndOpenApiFilenames": [
+    {
+      "serviceName": "user-service",
+      "openApiFilename": "user-service-openapi.yaml"
+    },
+    {
+      "serviceName": "order-service",
+      "openApiFilename": "order-service-openapi.yaml"
+    }
+  ]
 }
 ```
 
