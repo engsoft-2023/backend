@@ -14,10 +14,12 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @ExtendWith(MockitoExtension::class)
@@ -72,6 +74,32 @@ class RegisterServicesEndpointsImplTest {
         }
     }
 
+    @Test
+    fun `it should not fetch, parse or convert openapi files for those services that do not have openapi files`() {
+        `when`(repository.findAllBySystem("codepix")).thenReturn(
+            setOf(
+                Service(
+                    name = "user-service",
+                    responsibility = "",
+                    module = Module("user-service"),
+                    system = ServiceBasedSystem("codepix", "")
+                )
+            )
+        )
+        val payload = ServicesEndpointsRegistrationPayload(
+            repoUrl = "https://github.com/erickrodrigs/codepix",
+            servicesAndOpenApiFilenames = listOf(
+                ServiceAndOpenApi(serviceName = "user-service", "")
+            )
+        )
+
+        registerServicesEndpoints.execute("codepix", payload)
+
+        verify(fetcher, times(0)).execute(anyString(), anyString())
+        verify(parser, times(0)).execute(any())
+        verify(converter, times(0)).execute(any())
+    }
+
     @Nested
     @DisplayName("when services endpoints registration is successful")
     inner class SuccessfulServicesEndpointsRegistration {
@@ -118,7 +146,7 @@ class RegisterServicesEndpointsImplTest {
 
         @Test
         fun `it should save all services with operations in the database`() {
-            verify(repository, Mockito.times(1)).saveAll(setOf(service))
+            verify(repository, times(1)).saveAll(setOf(service))
         }
     }
 }

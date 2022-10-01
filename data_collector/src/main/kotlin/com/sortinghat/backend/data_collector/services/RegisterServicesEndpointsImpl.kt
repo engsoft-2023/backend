@@ -33,6 +33,8 @@ class RegisterServicesEndpointsImpl(
         }
 
         servicesAndOpenApiFilenames.forEach { (serviceName, openApiFilename) ->
+            if (openApiFilename.isEmpty()) return@forEach
+
             val service = services.find { s -> s.name == serviceName }
                 ?: throw EntityNotFoundException("unable to register endpoints for service $serviceName: service not found")
 
