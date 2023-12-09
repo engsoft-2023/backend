@@ -6,6 +6,7 @@ import com.sortinghat.backend.data_collector.exceptions.UnableToFetchDataExcepti
 import com.sortinghat.backend.data_collector.exceptions.UnableToParseDataException
 import com.sortinghat.backend.data_collector.services.RegisterNewSystem
 import com.sortinghat.backend.data_collector.services.RegisterServicesEndpoints
+import com.sortinghat.backend.data_collector.services.RegisterSyncAndAsyncOperations
 import com.sortinghat.backend.domain.exceptions.EntityNotFoundException
 import com.sortinghat.backend.domain.model.Module
 import com.sortinghat.backend.domain.model.Service
@@ -36,6 +37,9 @@ class SystemControllerTest {
     private lateinit var registerServicesEndpoints: RegisterServicesEndpoints
 
     @MockBean
+    private lateinit var registerSyncAndAsyncOperations: RegisterSyncAndAsyncOperations
+
+    @MockBean
     private lateinit var extractSystemMetrics: ExtractSystemMetrics
 
     @MockBean
@@ -45,7 +49,7 @@ class SystemControllerTest {
         MockMvcBuilders
             .standaloneSetup(
                 SystemController(
-                    registerNewSystem, registerServicesEndpoints, extractSystemMetrics, systemService
+                    registerNewSystem, registerServicesEndpoints, registerSyncAndAsyncOperations, extractSystemMetrics, systemService
                 )
             )
             .setControllerAdvice(SystemControllerAdvice())
