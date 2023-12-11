@@ -71,7 +71,7 @@ class RegisterSyncAndAsyncOperationsImplTest {
             operations = mapOf(
                 "user-service" to SyncAndAsyncOperations(
                     synchronous = mapOf(
-                        "payment-service" to "GET /users/{id}/payments"
+                        "payment-service" to setOf("GET /users/{id}/payments")
                     ),
                     asynchronous = mapOf()
                 )
@@ -106,7 +106,7 @@ class RegisterSyncAndAsyncOperationsImplTest {
             operations = mapOf(
                 "user-service" to SyncAndAsyncOperations(
                     synchronous = mapOf(
-                        "payment-service" to "GET /users/{id}/payments"
+                        "payment-service" to setOf("GET /users/{id}/payments")
                     ),
                     asynchronous = mapOf()
                 )
@@ -141,10 +141,10 @@ class RegisterSyncAndAsyncOperationsImplTest {
             operations = mapOf(
                 "user-service" to SyncAndAsyncOperations(
                     synchronous = mapOf(
-                        "payment-service" to "GET /users/{id}/payments"
+                        "payment-service" to setOf("GET /users/{id}/payments")
                     ),
                     asynchronous = mapOf(
-                        "payment-service" to "PAYMENT_MADE"
+                        "payment-service" to setOf("PAYMENT_MADE")
                     )
                 )
             )

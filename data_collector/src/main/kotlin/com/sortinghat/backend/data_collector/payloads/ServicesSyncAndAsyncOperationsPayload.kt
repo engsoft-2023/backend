@@ -5,6 +5,6 @@ data class ServicesSyncAndAsyncOperationsPayload(
 )
 
 data class SyncAndAsyncOperations(
-    val synchronous:  Map<String, String>,
-    val asynchronous: Map<String, String>
+    val synchronous:  Map<String, Set<String>>,
+    val asynchronous: Map<String, Set<String>>
 )

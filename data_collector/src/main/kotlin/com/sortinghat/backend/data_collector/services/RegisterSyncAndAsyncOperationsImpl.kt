@@ -26,22 +26,27 @@ class RegisterSyncAndAsyncOperationsImpl(
         repository.saveAll(services)
     }
 
-    private fun processSynchronousOperations(services: Set<Service>, fromService: Service, synchronousOperations: Map<String, String>) {
-        synchronousOperations.forEach { (toServiceName, syncOperation) ->
+    private fun processSynchronousOperations(services: Set<Service>, fromService: Service, synchronousOperations: Map<String, Set<String>>) {
+        synchronousOperations.forEach { (toServiceName, syncOperations) ->
             val toService = getService(services, toServiceName)
-            val operation = getExposedOperation(toService, syncOperation)
 
-            fromService.consume(operation)
+            syncOperations.forEach { syncOperation ->
+                val operation = getExposedOperation(toService, syncOperation)
+                fromService.consume(operation)
+            }
         }
     }
 
-    private fun processAsynchronousOperations(services: Set<Service>, fromService: Service, asynchronousOperations: Map<String, String>) {
-        asynchronousOperations.forEach { (toServiceName, channelName) ->
+    private fun processAsynchronousOperations(services: Set<Service>, fromService: Service, asynchronousOperations: Map<String, Set<String>>) {
+        asynchronousOperations.forEach { (toServiceName, channelNames) ->
             val toService = getService(services, toServiceName)
-            val channel = MessageChannel(channelName)
 
-            toService.publishTo(channel)
-            fromService.subscribeTo(channel)
+            channelNames.forEach { channelName ->
+                val channel = MessageChannel(channelName)
+
+                toService.publishTo(channel)
+                fromService.subscribeTo(channel)
+            }
         }
     }
 
